@@ -15,7 +15,7 @@ public class EscenaOpciones extends EscenaBase
 
     @Override
     public void cargarRecursos() {
-        regionFondo = cargarImagen("escenario.jpg");
+        regionFondo = cargarImagen("MenuOpciones.jpg");
 
     }
 
