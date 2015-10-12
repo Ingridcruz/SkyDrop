@@ -1,179 +1,186 @@
 package mx.itesm.skydrop;
 
-import org.andengine.engine.Engine;
+import org.andengine.entity.primitive.Rectangle;
+import org.andengine.entity.scene.background.SpriteBackground;
+import org.andengine.entity.scene.menu.MenuScene;
+import org.andengine.entity.scene.menu.item.IMenuItem;
+import org.andengine.entity.scene.menu.item.SpriteMenuItem;
+import org.andengine.entity.scene.menu.item.decorator.ScaleMenuItemDecorator;
+import org.andengine.entity.sprite.ButtonSprite;
+import org.andengine.entity.sprite.Sprite;
+import org.andengine.opengl.texture.region.ITextureRegion;
 
 /**
- * Administra la escena que se verá en la pantalla
+ * Representa la escena del MENU PRINCIPAL
+ *
+ * @author Roberto Martínez Román
  */
-public class AdministradorEscenas
+public class EscenaMenu extends EscenaBase
 {
-    // Instancia única
-    private static final AdministradorEscenas INSTANCE =
-            new AdministradorEscenas();
-    protected ControlJuego actividadJuego;
+    // Regiones para las imágenes de la escena
+    private ITextureRegion regionFondo;
+    private ITextureRegion regionBtnAcercaDe;
+    private ITextureRegion regionBtnJugar;
+    private ITextureRegion regionBtnOpciones;
+    private ITextureRegion regionBtnRules;
 
-    // Declara las distintas escenas que forman el juego
-    private EscenaBase escenaSplash;
-    private EscenaBase escenaMenu;
-    private EscenaBase escenaAcercaDe;
-    private EscenaBase escenaOpciones;
-    private EscenaBase escenaRules;
-    private EscenaBase escenaNivel1;
+    // Sprites sobre la escena
+    private Sprite spriteFondo;
 
-    // El tipo de escena que se está mostrando
-    private TipoEscena tipoEscenaActual = TipoEscena.ESCENA_SPLASH;
-    // La escena que se está mostrando
-    private EscenaBase escenaActual;
-    // El engine para hacer el cambio de escenas
-    private Engine engine;
+    // Un menú de tipo SceneMenu
+    private MenuScene menu;     // Contenedor de las opciones
+    // Constantes para cada opción
+    private final int OPCION_ACERCA_DE = 0;
+    private final int OPCION_JUGAR = 1;
+    private final int OPCION_OPCIONES = 2;
+    private final int OPCION_RULES = 3;
 
-    // Asigna valores iniciales del administrador
-    public static void inicializarAdministrador(ControlJuego actividadJuego, Engine engine) {
-        getInstance().actividadJuego = actividadJuego;
-        getInstance().engine = engine;
-    }
+    // Botones de cada opción
+    private ButtonSprite btnAcercaDe;
+    private ButtonSprite btnJugar;
+    private ButtonSprite btnopciones;
+    private ButtonSprite btnrules;
 
-    // Regresa la instancia del administrador de escenas
-    public static AdministradorEscenas getInstance() {
-        return INSTANCE;
-    }
-
-    // Regresa el tipo de la escena actual
-    public TipoEscena getTipoEscenaActual() {
-        return tipoEscenaActual;
-    }
-
-    // Regresa la escena actual
-    public EscenaBase getEscenaActual() {
-        return escenaActual;
+    @Override
+    public void cargarRecursos() {
+        // Fondo
+        regionFondo = cargarImagen("MenuInicio.jpg");
+        // Botones del menú
+        regionBtnAcercaDe = cargarImagen("pl.png");
+        regionBtnJugar = cargarImagen("pel.png");
+        regionBtnOpciones=cargarImagen("pesl.png");
+        regionBtnRules=cargarImagen("pessl.png");
     }
 
-    /*
-     * Pone en la pantalla la escena que llega como parámetro y guarda el nuevo estado
-     */
-    private void setEscenaBase(EscenaBase nueva) {
-        engine.setScene(nueva);
-        escenaActual = nueva;
-        tipoEscenaActual = nueva.getTipoEscena();
+    @Override
+    public void crearEscena() {
+        // Creamos el sprite de manera óptima
+        spriteFondo = cargarSprite(ControlJuego.ANCHO_CAMARA/2, ControlJuego.ALTO_CAMARA/2, regionFondo);
+
+        // Crea el fondo de la pantalla
+        SpriteBackground fondo = new SpriteBackground(1,1,1,spriteFondo);
+        setBackground(fondo);
+        setBackgroundEnabled(true);
+
+        // Mostrar un recuadro atrás del menú
+        agregarFondoMenu();
+        // Mostrar opciones de menú
+        agregarMenu();
     }
 
-    /**
-     * Cambia a la escena especificada en el parámetro
-     * @param nuevoTipo la nueva escena que se quiere mostrar
-     */
-    public void setEscena(TipoEscena nuevoTipo) {
-        switch (nuevoTipo) {
-            case ESCENA_SPLASH:
-                setEscenaBase(escenaSplash);
-                break;
-            case ESCENA_MENU:
-                setEscenaBase(escenaMenu);
-                break;
-            case ESCENA_ACERCA_DE:
-                setEscenaBase(escenaAcercaDe);
-                break;
-            case ESCENA_OPCIONES:
-                setEscenaBase(escenaOpciones);
-                break;
-            case ESCENA_RULES:
-                setEscenaBase(escenaRules);
-                break;
-            case ESCENA_NIVEL1:
-                setEscenaBase(escenaNivel1);
-                break;
-        }
+    private void agregarFondoMenu() {
+        Rectangle cuadro = new Rectangle(ControlJuego.ANCHO_CAMARA/2, ControlJuego.ALTO_CAMARA/2,
+                0.75f*ControlJuego.ANCHO_CAMARA, 0.75f*ControlJuego.ALTO_CAMARA, actividadJuego.getVertexBufferObjectManager());
+        cuadro.setColor(0.8f, 0.8f, 0.8f, 0.4f);
+        attachChild(cuadro);
     }
 
-    //*** Crea la escena de Splash
-    public void crearEscenaSplash() {
-        // Carga los recursos
-        escenaSplash = new EscenaSplash();
-    }
+    private void agregarMenu() {
+        // Crea el objeto que representa el menú
+        menu = new MenuScene(actividadJuego.camara);
+        // Centrado en la pantalla
+        menu.setPosition(ControlJuego.ANCHO_CAMARA/2,ControlJuego.ALTO_CAMARA/2);
+        // Crea las opciones (por ahora, acerca de y jugar)
+        IMenuItem opcionAcercaDe = new ScaleMenuItemDecorator(new SpriteMenuItem(OPCION_ACERCA_DE,
+                regionBtnAcercaDe, actividadJuego.getVertexBufferObjectManager()), 1.5f, 1);
+        IMenuItem opcionJugar = new ScaleMenuItemDecorator(new SpriteMenuItem(OPCION_JUGAR,
+                regionBtnJugar, actividadJuego.getVertexBufferObjectManager()), 1.5f, 1);
+        IMenuItem opcionopciones = new ScaleMenuItemDecorator(new SpriteMenuItem(OPCION_OPCIONES,
+                regionBtnOpciones, actividadJuego.getVertexBufferObjectManager()), 1.5f, 1);
+        IMenuItem opcionrules = new ScaleMenuItemDecorator(new SpriteMenuItem(OPCION_RULES,
+                regionBtnRules, actividadJuego.getVertexBufferObjectManager()), 1.5f, 1);
 
-    //*** Libera la escena de Splash
-    public void liberarEscenaSplash() {
-        escenaSplash.liberarEscena();
-        escenaSplash = null;
-    }
+        // Agrega las opciones al menú
+        menu.addMenuItem(opcionAcercaDe);
+        menu.addMenuItem(opcionJugar);
+        menu.addMenuItem(opcionopciones);
+        menu.addMenuItem(opcionrules);
 
-    // ** MENU
-    //*** Crea la escena de MENU
-    public void crearEscenaMenu() {
-        // Carga los recursos
-        escenaMenu = new EscenaMenu();
-    }
+        // Termina la configuración
+        menu.buildAnimations();
+        menu.setBackgroundEnabled(false);   // Completamente transparente
 
-    //*** Libera la escena de MENU
-    public void liberarEscenaMenu() {
-        escenaMenu.liberarEscena();
-        escenaMenu = null;
-    }
-
-    //*** Crea la escena de Acerca De
-    public void crearEscenaAcercaDe() {
-        // Carga los recursos
-        escenaAcercaDe = new EscenaAcercaDe();
-    }
-
-    //*** Libera la escena de AcercDe
-    public void liberarEscenaAcercaDe() {
-        escenaAcercaDe.liberarEscena();
-        escenaAcercaDe = null;
-    }
-    public void crearEscenaOpciones() {
-        // Carga los recursos
-        escenaOpciones = new EscenaRules();
-    }
-    public void liberarEscenaOpciones() {
-        escenaOpciones.liberarEscena();
-        escenaOpciones = null;
-    }
-    public void crearEscenaRules() {
-        // Carga los recursos
-        escenaRules = new EscenaRules();
-    }
-    public void liberarEscenaRules() {
-        escenaRules.liberarEscena();
-        escenaRules = null;
-    }
-
-    public void crearEscenaNivel1() {
-        escenaNivel1 = new EscenaNivel1();
-    }
-    public void liberarEscenaNivel1(){
-        escenaNivel1.liberarEscena();
-        escenaNivel1= null;
-    }
+        // Ubicar las opciones DENTRO del menú. El centro del menú es (0,0)
+        opcionAcercaDe.setPosition(180,-280);
+        opcionJugar.setPosition(180, 130);
+        opcionopciones.setPosition(180,-150);
+        opcionrules.setPosition(180, 0);
 
 
+        // Registra el Listener para atender las opciones
+        menu.setOnMenuItemClickListener(new MenuScene.IOnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClicked(MenuScene pMenuScene, IMenuItem pMenuItem,
+                                             float pMenuItemLocalX, float pMenuItemLocalY) {
+                // El parámetro pMenuItem indica la opción oprimida
+                switch(pMenuItem.getID()) {
+                    case OPCION_ACERCA_DE:
+                        // Mostrar la escena de AcercaDe
+                        admEscenas.crearEscenaAcercaDe();
+                        admEscenas.setEscena(TipoEscena.ESCENA_ACERCA_DE);
+                        admEscenas.liberarEscenaMenu();
+                        break;
 
-/*
-    //*** Crea la escena de JUEGO
-    public void crearEscenaJuego() {
-        // Carga los recursos
-        admRecursos.cargarRecursosJuego();
-        //escenaJuego = new EscenaJuego();
+                    case OPCION_JUGAR:
+                        // Mostrar la pantalla de juego
+                        admEscenas.crearEscenaNivel1();
+                        admEscenas.setEscena(TipoEscena.ESCENA_NIVEL1);
+                        admEscenas.liberarEscenaMenu();
+
+                        break;
+                    case OPCION_OPCIONES:
+
+                        admEscenas.crearEscenaOpciones();
+                        admEscenas.setEscena(TipoEscena.ESCENA_OPCIONES);
+                        admEscenas.liberarEscenaMenu();
+                        break;
+
+                    case OPCION_RULES:
+
+                        admEscenas.crearEscenaRules();
+                        admEscenas.setEscena(TipoEscena.ESCENA_RULES);
+                        admEscenas.liberarEscenaMenu();
+                        break;
+
+
+                }
+                return true;
+            }
+        });
+
+        // Asigna este menú a la escena
+        setChildScene(menu);
     }
 
-    //*** Libera la escena de JUEGO
-    public void liberarEscenaJuego() {
-        admRecursos.liberarRecursosJuego();
-        escenaJuego.liberarEscena();
-        escenaJuego = null;
+    // La escena se debe actualizar en este método que se repite "varias" veces por segundo
+    // Aquí es donde programan TODA la acción de la escena (movimientos, choques, disparos, etc.)
+    @Override
+    protected void onManagedUpdate(float pSecondsElapsed) {
+        super.onManagedUpdate(pSecondsElapsed);
+
     }
 
-    //*** Crea la escena de Juego Dos
-    public void crearEscenaJuegoDos() {
-        // Carga los recursos
-        admRecursos.cargarRecursosJuegoDos();
-        //escenaJuegoDos = new EscenaJuegoDos();
+
+    @Override
+    public void onBackKeyPressed() {
+        // Salir del juego, no hacemos nada
     }
 
-    //*** Libera la escena de Juego Dos
-    public void liberarEscenaJuegoDos() {
-        admRecursos.liberarRecursosJuegoDos();
-        escenaJuegoDos.liberarEscena();
-        escenaJuegoDos = null;
+    @Override
+    public TipoEscena getTipoEscena() {
+        return TipoEscena.ESCENA_MENU;
     }
-*/
+
+    @Override
+    public void liberarEscena() {
+        this.detachSelf();      // La escena se deconecta del engine
+        this.dispose();         // Libera la memoria
+        liberarRecursos();
+    }
+
+    @Override
+    public void liberarRecursos() {
+        regionFondo.getTexture().unload();
+        regionFondo = null;
+    }
 }
