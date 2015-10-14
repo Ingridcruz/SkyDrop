@@ -13,7 +13,7 @@ public class EscenaRules extends EscenaBase
 
     @Override
     public void cargarRecursos() {
-        regionFondo = cargarImagen("escenario2.jpg");
+        regionFondo = cargarImagen("MenuOpciones.jpg");
 
     }
 
@@ -28,7 +28,7 @@ public class EscenaRules extends EscenaBase
         // Regresar al menú principal
         admEscenas.crearEscenaMenu();
         admEscenas.setEscena(TipoEscena.ESCENA_MENU);
-        admEscenas.liberarEscenaOpciones();
+        admEscenas.liberarEscenaRules();
     }
 
     @Override

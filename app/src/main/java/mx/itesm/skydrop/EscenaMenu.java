@@ -44,12 +44,12 @@ public class EscenaMenu extends EscenaBase
     @Override
     public void cargarRecursos() {
         // Fondo
-        regionFondo = cargarImagen("11992565_10207444155172866_235890482_n.jpg");
+        regionFondo = cargarImagen("MenuInicio.jpg");
         // Botones del menú
-        regionBtnAcercaDe = cargarImagen("pl.png");
-        regionBtnJugar = cargarImagen("pel.png");
-        regionBtnOpciones=cargarImagen("pesl.png");
-        regionBtnRules=cargarImagen("pessl.png");
+        regionBtnAcercaDe = cargarImagen("botnextra.png");
+        regionBtnJugar = cargarImagen("sobreplay.png");
+        regionBtnOpciones=cargarImagen("botonOp.jpg");
+        regionBtnRules=cargarImagen("botnrules.png");
     }
 
     @Override
@@ -63,7 +63,7 @@ public class EscenaMenu extends EscenaBase
         setBackgroundEnabled(true);
 
         // Mostrar un recuadro atrás del menú
-        agregarFondoMenu();
+        //agregarFondoMenu();
         // Mostrar opciones de menú
         agregarMenu();
     }
