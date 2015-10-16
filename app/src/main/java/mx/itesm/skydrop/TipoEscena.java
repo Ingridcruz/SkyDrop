@@ -14,5 +14,6 @@ public enum TipoEscena {
     ESCENA_JUEGO,
     ESCENA_JUEGO_DOS,
     ESCENA_FISICA,
-    ESCENA_NIVEL1
+    ESCENA_NIVEL1,
+
 }

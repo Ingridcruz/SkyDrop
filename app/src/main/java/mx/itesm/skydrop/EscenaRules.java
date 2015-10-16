@@ -13,7 +13,7 @@ public class EscenaRules extends EscenaBase
 
     @Override
     public void cargarRecursos() {
-        regionFondo = cargarImagen("MenuOpciones.jpg");
+        regionFondo = cargarImagen("rules.jpg");
 
     }
 
