@@ -38,7 +38,7 @@ public class EscenaNivel1 extends EscenaBase implements IAccelerationListener {
     private Text txtMarcador; // Por ahora con valorMarcador
     private IFont fontSan;
     // Marcador (valorMarcador)
-    private float valorMarcador;    // Aumenta 100 puntos por cada moneda
+    private float valorMarcador= 0;    // Aumenta 100 puntos por cada moneda
     // HUD (Heads-Up Display)
     private HUD hud;
     // Sprite para el fondo
@@ -47,9 +47,14 @@ public class EscenaNivel1 extends EscenaBase implements IAccelerationListener {
     private ArrayList<Enemigo> listaSobres;
     private ITextureRegion regionEnemigo;
 
+    private ITextureRegion regionNube;
+    private ArrayList<Nube> listaNube;
+
     // Tiempo para generar listaSobres
     private float tiempoEnemigos = 0;
     private float LIMITE_TIEMPO = 2.5f;
+    private float tiempoNube = 0;
+    private float LIMITE_TIEMPON = 2.5f;
 
 
         @Override
@@ -59,6 +64,7 @@ public class EscenaNivel1 extends EscenaBase implements IAccelerationListener {
             regionPersonajeAnimado = cargarImagenMosaico("pajaro.jpg", 128, 29, 1, 3);
             regionEnemigo=cargarImagen("carta.png");
            fontSan = cargarFont("san.ttf");
+            regionNube=cargarImagen("nube.png");
 
 
         }
@@ -90,7 +96,8 @@ public class EscenaNivel1 extends EscenaBase implements IAccelerationListener {
 
         // Lista de enemigos que aparecen del lado derecho
         listaSobres = new ArrayList<>();
-        
+        listaNube = new ArrayList<>();
+
         // Agregar flechas y el txtMarcador/valorMarcador
       agregarHUD();
 
@@ -102,7 +109,6 @@ public class EscenaNivel1 extends EscenaBase implements IAccelerationListener {
         txtMarcador = new Text(ControlJuego.ANCHO_CAMARA/2,ControlJuego.ALTO_CAMARA-100,
                fontSan,"    0000    ",actividadJuego.getVertexBufferObjectManager());
        hud.attachChild(txtMarcador);
-       valorMarcador = 0;
 
         actividadJuego.camara.setHUD(hud);
     }
@@ -136,6 +142,7 @@ public class EscenaNivel1 extends EscenaBase implements IAccelerationListener {
             listaSobres.add(nuevoEnemigo);
             attachChild(nuevoEnemigo.getSpriteEnemigo());
             Log.i("Tamaño", "Datos: " + listaSobres.size());
+
         }
 
 
@@ -152,6 +159,43 @@ public class EscenaNivel1 extends EscenaBase implements IAccelerationListener {
                 listaSobres.remove(enemigo);
                 puntos = puntos+10;
                 Log.i("ENERGIA", "Puntos: " + puntos);
+                valorMarcador=puntos;
+
+            }
+        }
+
+
+        // Acumular tiempo
+        tiempoNube += pSecondsElapsed;
+        if (tiempoNube > LIMITE_TIEMPON) {
+            // Se cumplió el tiempo
+            tiempoNube = 0;
+            if (LIMITE_TIEMPON > 0.5f) {
+                LIMITE_TIEMPON -= 0.15f;
+            }
+            Sprite spriteNube = cargarSprite((float) (Math.random() * ControlJuego.ANCHO_CAMARA - regionNube.getWidth()) + regionNube.getWidth(), ControlJuego.ALTO_CAMARA + regionNube.getHeight(), regionNube);
+            Nube nuevoNube = new Nube(spriteNube);
+            listaNube.add(nuevoNube);
+            attachChild(nuevoNube.getSpriteNube());
+            Log.i("Tamaño", "Datos: " + listaNube.size());
+
+        }
+
+
+        // Actualizar cada uno de los listaSobres y ver si alguno ya salió de la pantalla
+        for (int i = listaNube.size() - 1; i >= 0; i--) {
+            Nube nube = listaNube.get(i);
+            nube.mover(0, -10);
+            if (nube.getSpriteNube().getY() < -nube.getSpriteNube().getHeight()) {
+                detachChild(nube.getSpriteNube());
+                listaNube.remove(nube);
+            }
+            if (spritePersonaje.collidesWith(nube.getSpriteNube())) {
+                detachChild(nube.getSpriteNube());
+                listaNube.remove(nube);
+                puntos = puntos+10;
+                Log.i("ENERGIA", "Puntos: " + puntos);
+                valorMarcador=puntos;
 
             }
         }
