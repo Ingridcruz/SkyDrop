@@ -26,24 +26,30 @@ import java.util.ArrayList;
 public class EscenaNivel1 extends EscenaBase implements IAccelerationListener {
 
     private int puntos = 0;
+    private int vidas= 3;
 
     private boolean juegoCorriendo = true;
 
     // Fin del juego
+    private ITextureRegion regionWin;
     private ITextureRegion regionFin;
         private ITextureRegion regionFondo;
         private ITextureRegion regionFondo2;
+    private ITextureRegion regionCorazon;
     private AnimatedSprite spritePersonaje;
     private TiledTextureRegion regionPersonajeAnimado;
     private Text txtMarcador; // Por ahora con valorMarcador
+    private Text txtVidas;
     private IFont fontSan;
     // Marcador (valorMarcador)
-    private float valorMarcador= 0;    // Aumenta 100 puntos por cada moneda
+    private int valorMarcador= 0;    // Aumenta 100 puntos por cada moneda
+    private int valorVidas= 3;
     // HUD (Heads-Up Display)
     private HUD hud;
     // Sprite para el fondo
         private Sprite spriteFondo;
         private Sprite spriteFondo2;
+    private Sprite spriteCorazon;
     private ArrayList<Enemigo> listaSobres;
     private ITextureRegion regionEnemigo;
 
@@ -52,19 +58,22 @@ public class EscenaNivel1 extends EscenaBase implements IAccelerationListener {
 
     // Tiempo para generar listaSobres
     private float tiempoEnemigos = 0;
-    private float LIMITE_TIEMPO = 2.5f;
+    private float LIMITE_TIEMPO = 10.5f;
     private float tiempoNube = 0;
-    private float LIMITE_TIEMPON = 2.5f;
+    private float LIMITE_TIEMPON = 5.5f;
 
 
         @Override
         public void cargarRecursos() {
+            regionCorazon = cargarImagen("Corazon.png");
             regionFondo = cargarImagen("escenario.jpg");
             regionFondo2 = cargarImagen("escenario2.jpg");
-            regionPersonajeAnimado = cargarImagenMosaico("pajaro.jpg", 128, 29, 1, 3);
+            regionPersonajeAnimado = cargarImagenMosaico("line.png", 570, 200, 1, 4);
             regionEnemigo=cargarImagen("carta.png");
            fontSan = cargarFont("san.ttf");
             regionNube=cargarImagen("nube.png");
+            regionFin = cargarImagen("gameover.jpg");
+            regionWin = cargarImagen("gameover.jpg");
 
 
         }
@@ -74,7 +83,7 @@ public class EscenaNivel1 extends EscenaBase implements IAccelerationListener {
          final ITexture fontTexture = new BitmapTextureAtlas(actividadJuego.getEngine().getTextureManager(),512,256);
         // Carga el archivo, tamaño 56, antialias y color
          Font tipoLetra = FontFactory.createFromAsset(actividadJuego.getEngine().getFontManager(),
-              fontTexture, actividadJuego.getAssets(), archivo, 56, true, 0xFF00FF00);
+              fontTexture, actividadJuego.getAssets(), archivo, 35, true, 0xFF00FF00);
         tipoLetra.load();
         tipoLetra.prepareLetters("Puntos: 01234567890.".toCharArray());
 
@@ -88,7 +97,9 @@ public class EscenaNivel1 extends EscenaBase implements IAccelerationListener {
         attachChild(spriteFondo);
         spriteFondo2 = cargarSprite(ControlJuego.ANCHO_CAMARA / 2, regionFondo2.getHeight() * 1.5f, regionFondo2);
         attachChild(spriteFondo2);
-        spritePersonaje = new AnimatedSprite(ControlJuego.ANCHO_CAMARA / 2, 18,
+        spriteCorazon = cargarSprite(50, 1250, regionCorazon);
+        attachChild(spriteCorazon);
+        spritePersonaje = new AnimatedSprite(ControlJuego.ANCHO_CAMARA / 2, 50,
                 regionPersonajeAnimado, actividadJuego.getVertexBufferObjectManager());
         spritePersonaje.animate(150);   // 200ms entre frames, 1000/200 fps
         attachChild(spritePersonaje);
@@ -107,9 +118,11 @@ public class EscenaNivel1 extends EscenaBase implements IAccelerationListener {
     private void agregarHUD() {
         hud = new HUD();
         txtMarcador = new Text(ControlJuego.ANCHO_CAMARA/2,ControlJuego.ALTO_CAMARA-100,
-               fontSan,"    0000    ",actividadJuego.getVertexBufferObjectManager());
+               fontSan,"Puntos: 00000      ",actividadJuego.getVertexBufferObjectManager());
        hud.attachChild(txtMarcador);
-
+        txtVidas = new Text(50,1230,
+                fontSan,"Puntos: 00000      ",actividadJuego.getVertexBufferObjectManager());
+        hud.attachChild(txtVidas);
         actividadJuego.camara.setHUD(hud);
     }
 
@@ -157,9 +170,17 @@ public class EscenaNivel1 extends EscenaBase implements IAccelerationListener {
             if (spritePersonaje.collidesWith(enemigo.getSpriteEnemigo())) {
                 detachChild(enemigo.getSpriteEnemigo());
                 listaSobres.remove(enemigo);
-                puntos = puntos+10;
+                puntos = puntos+100;
                 Log.i("ENERGIA", "Puntos: " + puntos);
                 valorMarcador=puntos;
+                if (puntos==100) {
+                    juegoCorriendo=false;
+                    // Agrega pantalla de fin
+                    Sprite spriteWin = new Sprite(ControlJuego.ANCHO_CAMARA/2,ControlJuego.ALTO_CAMARA/2,
+                            regionWin,actividadJuego.getVertexBufferObjectManager()) ;
+                    attachChild(spriteWin);
+                }
+
 
             }
         }
@@ -179,6 +200,7 @@ public class EscenaNivel1 extends EscenaBase implements IAccelerationListener {
             attachChild(nuevoNube.getSpriteNube());
             Log.i("Tamaño", "Datos: " + listaNube.size());
 
+
         }
 
 
@@ -192,16 +214,21 @@ public class EscenaNivel1 extends EscenaBase implements IAccelerationListener {
             }
             if (spritePersonaje.collidesWith(nube.getSpriteNube())) {
                 detachChild(nube.getSpriteNube());
+                vidas=vidas-1;
                 listaNube.remove(nube);
-                puntos = puntos+10;
-                Log.i("ENERGIA", "Puntos: " + puntos);
-                valorMarcador=puntos;
-
+                valorVidas=vidas;
+                if (vidas==0) {
+                    juegoCorriendo=false;
+                    // Agrega pantalla de fin
+                    Sprite spriteFin = new Sprite(ControlJuego.ANCHO_CAMARA/2,ControlJuego.ALTO_CAMARA/2,
+                            regionFin,actividadJuego.getVertexBufferObjectManager()) ;
+                    attachChild(spriteFin);
+                }
             }
         }
 
        txtMarcador.setText("Puntos : " + (valorMarcador));
-
+        txtVidas.setText(" "+valorVidas+" ");
     }
     // Recude el tamaño hasta desaparecer
     private void desaparecerSobre(final Sprite sobreD) {
@@ -228,13 +255,24 @@ public class EscenaNivel1 extends EscenaBase implements IAccelerationListener {
         }
         @Override
         public void liberarEscena() {
+            liberarRecursos();
             this.detachSelf();
             this.dispose();
         }
         @Override
         public void liberarRecursos() {
+            actividadJuego.camara.setHUD(null);
+            actividadJuego.getEngine().disableAccelerationSensor(actividadJuego);
             regionFondo.getTexture().unload();
             regionFondo = null;
+            regionPersonajeAnimado.getTexture().unload();
+            regionPersonajeAnimado = null;
+            regionEnemigo.getTexture().unload();
+            regionEnemigo = null;
+            regionFin.getTexture().unload();
+            regionFin = null;
+            regionWin.getTexture().unload();
+            regionWin = null;
         }
 
     @Override
@@ -273,6 +311,9 @@ public class EscenaNivel1 extends EscenaBase implements IAccelerationListener {
         regionEnemigo = null;
         regionFin.getTexture().unload();
         regionFin = null;
+        regionWin.getTexture().unload();
+        regionWin = null;
+
 
     }
 
