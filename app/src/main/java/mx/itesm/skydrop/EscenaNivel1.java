@@ -74,7 +74,7 @@ public class EscenaNivel1 extends EscenaBase implements IAccelerationListener {
          final ITexture fontTexture = new BitmapTextureAtlas(actividadJuego.getEngine().getTextureManager(),512,256);
         // Carga el archivo, tamaño 56, antialias y color
          Font tipoLetra = FontFactory.createFromAsset(actividadJuego.getEngine().getFontManager(),
-              fontTexture, actividadJuego.getAssets(), archivo, 56, true, 0xFF00FF00);
+              fontTexture, actividadJuego.getAssets(), archivo, 30, true, 0xFF00FF00);
         tipoLetra.load();
         tipoLetra.prepareLetters("Puntos: 01234567890.".toCharArray());
 
