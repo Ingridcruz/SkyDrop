@@ -83,7 +83,7 @@ public class EscenaNivel1 extends EscenaBase implements IAccelerationListener {
          final ITexture fontTexture = new BitmapTextureAtlas(actividadJuego.getEngine().getTextureManager(),512,256);
         // Carga el archivo, tamaño 56, antialias y color
          Font tipoLetra = FontFactory.createFromAsset(actividadJuego.getEngine().getFontManager(),
-              fontTexture, actividadJuego.getAssets(), archivo, 35, true, 0xFF00FF00);
+        fontTexture, actividadJuego.getAssets(), archivo, 35, true, 0xFF00FF00);
         tipoLetra.load();
         tipoLetra.prepareLetters("Puntos: 01234567890.".toCharArray());
 
@@ -97,7 +97,7 @@ public class EscenaNivel1 extends EscenaBase implements IAccelerationListener {
         attachChild(spriteFondo);
         spriteFondo2 = cargarSprite(ControlJuego.ANCHO_CAMARA / 2, regionFondo2.getHeight() * 1.5f, regionFondo2);
         attachChild(spriteFondo2);
-        spriteCorazon = cargarSprite(50, 1250, regionCorazon);
+        spriteCorazon = cargarSprite(55, 1230, regionCorazon);
         attachChild(spriteCorazon);
         spritePersonaje = new AnimatedSprite(ControlJuego.ANCHO_CAMARA / 2, 50,
                 regionPersonajeAnimado, actividadJuego.getVertexBufferObjectManager());
