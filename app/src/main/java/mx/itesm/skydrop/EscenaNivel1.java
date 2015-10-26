@@ -58,7 +58,7 @@ public class EscenaNivel1 extends EscenaBase implements IAccelerationListener {
 
     // Tiempo para generar listaSobres
     private float tiempoEnemigos = 0;
-    private float LIMITE_TIEMPO = 10.5f;
+    private float LIMITE_TIEMPO = 7.5f;
     private float tiempoNube = 0;
     private float LIMITE_TIEMPON = 5.5f;
 
@@ -66,14 +66,14 @@ public class EscenaNivel1 extends EscenaBase implements IAccelerationListener {
         @Override
         public void cargarRecursos() {
             regionCorazon = cargarImagen("Corazon.png");
-            regionFondo = cargarImagen("escenario.jpg");
-            regionFondo2 = cargarImagen("escenario2.jpg");
-            regionPersonajeAnimado = cargarImagenMosaico("line.png", 570, 200, 1, 4);
+            regionFondo = cargarImagen("fond1.jpg");
+            regionFondo2 = cargarImagen("fond1.jpg");
+            regionPersonajeAnimado = cargarImagenMosaico("line.png", 488, 101, 1, 4);
             regionEnemigo=cargarImagen("carta.png");
            fontSan = cargarFont("san.ttf");
-            regionNube=cargarImagen("nube.png");
-            regionFin = cargarImagen("gameover.jpg");
-            regionWin = cargarImagen("gameover.jpg");
+            regionNube=cargarImagen("nubeobscura.png");
+            regionFin = cargarImagen("gameover.png");
+            regionWin = cargarImagen("win.png");
 
 
         }
@@ -83,9 +83,9 @@ public class EscenaNivel1 extends EscenaBase implements IAccelerationListener {
          final ITexture fontTexture = new BitmapTextureAtlas(actividadJuego.getEngine().getTextureManager(),512,256);
         // Carga el archivo, tamaño 56, antialias y color
          Font tipoLetra = FontFactory.createFromAsset(actividadJuego.getEngine().getFontManager(),
-        fontTexture, actividadJuego.getAssets(), archivo, 35, true, 0xFF00FF00);
+        fontTexture, actividadJuego.getAssets(), archivo, 40, true, 0xFF00FF00);
         tipoLetra.load();
-        tipoLetra.prepareLetters("Puntos: 01234567890.".toCharArray());
+        tipoLetra.prepareLetters("Score: 01234567890.".toCharArray());
 
          return tipoLetra;
    }
@@ -120,7 +120,7 @@ public class EscenaNivel1 extends EscenaBase implements IAccelerationListener {
         txtMarcador = new Text(ControlJuego.ANCHO_CAMARA/2,ControlJuego.ALTO_CAMARA-100,
                fontSan,"Puntos: 00000      ",actividadJuego.getVertexBufferObjectManager());
        hud.attachChild(txtMarcador);
-        txtVidas = new Text(50,1230,
+        txtVidas = new Text(42,1230,
                 fontSan,"Puntos: 00000      ",actividadJuego.getVertexBufferObjectManager());
         hud.attachChild(txtVidas);
         actividadJuego.camara.setHUD(hud);
@@ -170,10 +170,10 @@ public class EscenaNivel1 extends EscenaBase implements IAccelerationListener {
             if (spritePersonaje.collidesWith(enemigo.getSpriteEnemigo())) {
                 detachChild(enemigo.getSpriteEnemigo());
                 listaSobres.remove(enemigo);
-                puntos = puntos+100;
-                Log.i("ENERGIA", "Puntos: " + puntos);
+                puntos = puntos+500;
+                Log.i("ENERGIA", "Score: " + puntos);
                 valorMarcador=puntos;
-                if (puntos==100) {
+                if (puntos==5000) {
                     juegoCorriendo=false;
                     // Agrega pantalla de fin
                     Sprite spriteWin = new Sprite(ControlJuego.ANCHO_CAMARA/2,ControlJuego.ALTO_CAMARA/2,
@@ -227,7 +227,7 @@ public class EscenaNivel1 extends EscenaBase implements IAccelerationListener {
             }
         }
 
-       txtMarcador.setText("Puntos : " + (valorMarcador));
+       txtMarcador.setText("Score : " + (valorMarcador));
         txtVidas.setText(" "+valorVidas+" ");
     }
     // Recude el tamaño hasta desaparecer

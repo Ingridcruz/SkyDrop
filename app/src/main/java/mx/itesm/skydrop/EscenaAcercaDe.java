@@ -1,6 +1,12 @@
 package mx.itesm.skydrop;
 
+import org.andengine.entity.scene.menu.MenuScene;
+import org.andengine.entity.scene.menu.item.IMenuItem;
+import org.andengine.entity.scene.menu.item.SpriteMenuItem;
+import org.andengine.entity.scene.menu.item.decorator.ScaleMenuItemDecorator;
+import org.andengine.entity.sprite.ButtonSprite;
 import org.andengine.entity.sprite.Sprite;
+import org.andengine.input.touch.TouchEvent;
 import org.andengine.opengl.texture.region.ITextureRegion;
 
 /**
@@ -12,17 +18,25 @@ public class EscenaAcercaDe extends EscenaBase
     private ITextureRegion regionFondo;
     // Sprite para el fondo
     private Sprite spriteFondo;
+    private ITextureRegion regionBack;
+    private MenuScene menu;
+    private ButtonSprite btnback;
+
 
     @Override
     public void cargarRecursos() {
         regionFondo = cargarImagen("Extras.jpg");
+        regionBack = cargarImagen("back.png");
     }
 
     @Override
     public void crearEscena() {
-        spriteFondo = cargarSprite(ControlJuego.ANCHO_CAMARA/2, ControlJuego.ALTO_CAMARA/2, regionFondo);
+        spriteFondo = cargarSprite(ControlJuego.ANCHO_CAMARA / 2, ControlJuego.ALTO_CAMARA / 2, regionFondo);
         attachChild(spriteFondo);
+
     }
+
+
 
     @Override
     public void onBackKeyPressed() {
