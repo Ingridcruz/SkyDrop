@@ -1,30 +1,3 @@
-package mx.itesm.skydrop;
-
-import android.util.Log;
-
-import org.andengine.engine.camera.hud.HUD;
-import org.andengine.entity.IEntity;
-import org.andengine.entity.modifier.ScaleModifier;
-import org.andengine.entity.scene.CameraScene;
-import org.andengine.entity.sprite.AnimatedSprite;
-import org.andengine.entity.sprite.Sprite;
-import org.andengine.entity.text.Text;
-import org.andengine.input.sensor.acceleration.AccelerationData;
-import org.andengine.input.sensor.acceleration.IAccelerationListener;
-import org.andengine.input.touch.TouchEvent;
-import org.andengine.opengl.font.Font;
-import org.andengine.opengl.font.FontFactory;
-import org.andengine.opengl.font.IFont;
-import org.andengine.opengl.texture.ITexture;
-import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
-import org.andengine.opengl.texture.region.ITextureRegion;
-import org.andengine.opengl.texture.region.TiledTextureRegion;
-
-import java.util.ArrayList;
-
-/**
- * Created by Ingrid on 01/10/2015.
- */
 public class EscenaNivel1 extends EscenaBase implements IAccelerationListener {
 
     private int puntos = 0;
@@ -72,7 +45,7 @@ public class EscenaNivel1 extends EscenaBase implements IAccelerationListener {
             regionCorazon = cargarImagen("Corazon.png");
             regionFondo = cargarImagen("fond1.jpg");
             regionFondo2 = cargarImagen("fond1.jpg");
-            regionPersonajeAnimado = cargarImagenMosaico("line.png", 488, 101, 1, 4);
+            regionPersonajeAnimado = cargarImagenMosaico("line5.png", 488, 101, 1, 4);
             regionEnemigo=cargarImagen("carta.png");
            fontSan = cargarFont("san.ttf");
             regionNube=cargarImagen("nubeobscura.png");
@@ -104,8 +77,9 @@ public class EscenaNivel1 extends EscenaBase implements IAccelerationListener {
         attachChild(spriteFondo2);
         spriteCorazon = cargarSprite(55, 1230, regionCorazon);
         attachChild(spriteCorazon);
-        spritePersonaje = new AnimatedSprite(ControlJuego.ANCHO_CAMARA / 2, 50,
+        spritePersonaje = new AnimatedSprite(ControlJuego.ANCHO_CAMARA / 2, 80,
                 regionPersonajeAnimado, actividadJuego.getVertexBufferObjectManager());
+        spritePersonaje.setScale(1.5f);
         spritePersonaje.animate(150);   // 200ms entre frames, 1000/200 fps
         attachChild(spritePersonaje);
         actividadJuego.getEngine().enableAccelerationSensor(actividadJuego, this);
@@ -190,6 +164,7 @@ public class EscenaNivel1 extends EscenaBase implements IAccelerationListener {
             }
             Sprite spriteEnemigo = cargarSprite((float) (Math.random() * ControlJuego.ANCHO_CAMARA - regionEnemigo.getWidth()) + regionEnemigo.getWidth(), ControlJuego.ALTO_CAMARA + regionEnemigo.getHeight(), regionEnemigo);
             Enemigo nuevoEnemigo = new Enemigo(spriteEnemigo);
+            spriteEnemigo.setScale(0.75f);
             listaSobres.add(nuevoEnemigo);
             attachChild(nuevoEnemigo.getSpriteEnemigo());
             Log.i("Tamaño", "Datos: " + listaSobres.size());
@@ -234,6 +209,7 @@ public class EscenaNivel1 extends EscenaBase implements IAccelerationListener {
             }
             Sprite spriteNube = cargarSprite((float) (Math.random() * ControlJuego.ANCHO_CAMARA - regionNube.getWidth()) + regionNube.getWidth(), ControlJuego.ALTO_CAMARA + regionNube.getHeight(), regionNube);
             Nube nuevoNube = new Nube(spriteNube);
+            spriteNube.setScale(0.5f);
             listaNube.add(nuevoNube);
             attachChild(nuevoNube.getSpriteNube());
             Log.i("Tamaño", "Datos: " + listaNube.size());
