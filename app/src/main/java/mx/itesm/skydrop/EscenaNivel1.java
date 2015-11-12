@@ -1,3 +1,4 @@
+
 package mx.itesm.skydrop;
 
 import android.content.Context;
@@ -28,6 +29,7 @@ import java.util.ArrayList;
 /**
  * Created by Ingrid on 01/10/2015.
  */
+
 public class EscenaNivel1 extends EscenaBase implements IAccelerationListener {
 
     private int puntos = 0;
@@ -120,8 +122,9 @@ public class EscenaNivel1 extends EscenaBase implements IAccelerationListener {
         attachChild(spriteFondo2);
         spriteCorazon = cargarSprite(55, 1230, regionCorazon);
         attachChild(spriteCorazon);
-        spritePersonaje = new AnimatedSprite(ControlJuego.ANCHO_CAMARA / 2, 50,
+        spritePersonaje = new AnimatedSprite(ControlJuego.ANCHO_CAMARA / 2, 80,
                 regionPersonajeAnimado, actividadJuego.getVertexBufferObjectManager());
+        spritePersonaje.setScale(1.5f);
         spritePersonaje.animate(150);   // 200ms entre frames, 1000/200 fps
         attachChild(spritePersonaje);
         actividadJuego.getEngine().enableAccelerationSensor(actividadJuego, this);
@@ -140,9 +143,9 @@ public class EscenaNivel1 extends EscenaBase implements IAccelerationListener {
             @Override
             public boolean onAreaTouched(TouchEvent pSceneTouchEvent, float pTouchAreaLocalX, float pTouchAreaLocalY) {
                 if (pSceneTouchEvent.isActionDown()) {
-                    if (juegoCorriendo) {
+                  //  if (juegoCorriendo) {
                         pausarJuego();
-                    }
+                  //  }
                     if(juegoGanado==false){
 
                     }
@@ -272,6 +275,7 @@ public class EscenaNivel1 extends EscenaBase implements IAccelerationListener {
             }
             Sprite spriteEnemigo = cargarSprite((float) (Math.random() * ControlJuego.ANCHO_CAMARA - regionEnemigo.getWidth()) + regionEnemigo.getWidth(), ControlJuego.ALTO_CAMARA + regionEnemigo.getHeight(), regionEnemigo);
             Enemigo nuevoEnemigo = new Enemigo(spriteEnemigo);
+            spriteEnemigo.setScale(0.75f);
             listaSobres.add(nuevoEnemigo);
             attachChild(nuevoEnemigo.getSpriteEnemigo());
             Log.i("Tamaño", "Datos: " + listaSobres.size());
@@ -350,6 +354,7 @@ public class EscenaNivel1 extends EscenaBase implements IAccelerationListener {
             }
             Sprite spriteNube = cargarSprite((float) (Math.random() * ControlJuego.ANCHO_CAMARA - regionNube.getWidth()) + regionNube.getWidth(), ControlJuego.ALTO_CAMARA + regionNube.getHeight(), regionNube);
             Nube nuevoNube = new Nube(spriteNube);
+            spriteNube.setScale(0.5f);
             listaNube.add(nuevoNube);
             attachChild(nuevoNube.getSpriteNube());
             Log.i("Tamaño", "Datos: " + listaNube.size());
