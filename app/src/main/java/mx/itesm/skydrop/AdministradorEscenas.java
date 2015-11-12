@@ -19,6 +19,7 @@ public class AdministradorEscenas
     private EscenaBase escenaOpciones;
     private EscenaBase escenaRules;
     private EscenaBase escenaNivel1;
+    private EscenaBase escenaNivel2;
 
 
     // El tipo de escena que se está mostrando
@@ -81,6 +82,9 @@ public class AdministradorEscenas
                 break;
             case ESCENA_NIVEL1:
                 setEscenaBase(escenaNivel1);
+                break;
+            case ESCENA_NIVEL2:
+                setEscenaBase(escenaNivel2);
                 break;
 
         }
@@ -145,6 +149,15 @@ public class AdministradorEscenas
     public void liberarEscenaNivel1(){
         escenaNivel1.liberarEscena();
         escenaNivel1= null;
+    }
+    public void crearEscenaNivel2() {
+        escenaNivel1 = new EscenaNivel2();
+    }
+
+    public void liberarEscenaNivel2() {
+        escenaNivel2.liberarEscena();
+        escenaNivel2 = null;
+
     }
 
 
