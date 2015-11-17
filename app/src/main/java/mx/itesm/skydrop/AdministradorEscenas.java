@@ -151,7 +151,7 @@ public class AdministradorEscenas
         escenaNivel1= null;
     }
     public void crearEscenaNivel2() {
-        escenaNivel1 = new EscenaNivel2();
+        escenaNivel2 = new EscenaNivel2();
     }
 
     public void liberarEscenaNivel2() {

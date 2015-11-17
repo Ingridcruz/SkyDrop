@@ -38,6 +38,7 @@ public class EscenaNivel1 extends EscenaBase implements IAccelerationListener {
     private boolean juegoCorriendo = true;
 
     private boolean juegoGanado = true;
+    private boolean juegoPerdido = true;
 
     // Fin del juego
     private ITextureRegion regionWin;
@@ -162,6 +163,36 @@ public class EscenaNivel1 extends EscenaBase implements IAccelerationListener {
                 regionPausa);
         escenaPausa.attachChild(fondoPausa);
         escenaPausa.setBackgroundEnabled(false);
+        Sprite spriteReanudar = new Sprite(ControlJuego.ANCHO_CAMARA/2,ControlJuego.ALTO_CAMARA/2,
+                regionBtnReplay,actividadJuego.getVertexBufferObjectManager())  {
+            @Override
+            public boolean onAreaTouched(TouchEvent pSceneTouchEvent, float pTouchAreaLocalX, float pTouchAreaLocalY) {
+                if (pSceneTouchEvent.isActionDown()) {
+                    liberarEscena();
+                    admEscenas.crearEscenaNivel1();
+                    admEscenas.setEscena(TipoEscena.ESCENA_NIVEL1);
+                    return true;
+                }
+                return super.onAreaTouched(pSceneTouchEvent, pTouchAreaLocalX, pTouchAreaLocalY);
+            }
+        };
+        //btnContinuar.setAlpha(0.4f);
+        escenaPausa.attachChild(spriteReanudar);
+        registerTouchArea(spriteReanudar);
+        Sprite btnSalir = new Sprite(ControlJuego.ANCHO_CAMARA/2, ControlJuego.ALTO_CAMARA/4,
+                regionBtnSalir, actividadJuego.getVertexBufferObjectManager()) {
+            @Override
+            public boolean onAreaTouched(TouchEvent pSceneTouchEvent, float pTouchAreaLocalX, float pTouchAreaLocalY) {
+                if (pSceneTouchEvent.isActionDown()) {
+                    onBackKeyPressed();
+                    return true;
+                }
+                return super.onAreaTouched(pSceneTouchEvent, pTouchAreaLocalX, pTouchAreaLocalY);
+            }
+        };
+        //btnContinuar.setAlpha(0.4f);
+        escenaPausa.attachChild(btnSalir);
+        registerTouchArea(btnSalir);
         agregarFinJuego();
 
     }
@@ -215,8 +246,8 @@ public class EscenaNivel1 extends EscenaBase implements IAccelerationListener {
 
     private void reiniciarJuego() {
         liberarEscena();
-        admEscenas.crearEscenaAcercaDe();
-        admEscenas.setEscena(TipoEscena.ESCENA_ACERCA_DE);
+        admEscenas.crearEscenaNivel2();
+        admEscenas.setEscena(TipoEscena.ESCENA_NIVEL2);
     }
 
 
@@ -294,7 +325,7 @@ public class EscenaNivel1 extends EscenaBase implements IAccelerationListener {
             if (spritePersonaje.collidesWith(enemigo.getSpriteEnemigo())) {
                 detachChild(enemigo.getSpriteEnemigo());
                 listaSobres.remove(enemigo);
-                puntos = puntos+500;
+                puntos = puntos+250;
                 Log.i("ENERGIA", "Score: " + puntos);
                 valorMarcador=puntos;
                 if (puntos==5000) {
@@ -398,6 +429,20 @@ public class EscenaNivel1 extends EscenaBase implements IAccelerationListener {
                     //btnContinuar.setAlpha(0.4f);
                     spriteFin.attachChild(spriteReanudar);
                     registerTouchArea(spriteReanudar);
+                    Sprite btnSalir = new Sprite(ControlJuego.ANCHO_CAMARA/2, ControlJuego.ALTO_CAMARA/4,
+                            regionBtnSalir, actividadJuego.getVertexBufferObjectManager()) {
+                        @Override
+                        public boolean onAreaTouched(TouchEvent pSceneTouchEvent, float pTouchAreaLocalX, float pTouchAreaLocalY) {
+                            if (pSceneTouchEvent.isActionDown()) {
+                                onBackKeyPressed();
+                                return true;
+                            }
+                            return super.onAreaTouched(pSceneTouchEvent, pTouchAreaLocalX, pTouchAreaLocalY);
+                        }
+                    };
+                    //btnContinuar.setAlpha(0.4f);
+                    spriteFin.attachChild(btnSalir);
+                    registerTouchArea(btnSalir);
                 }
             }
         }
@@ -430,7 +475,7 @@ public class EscenaNivel1 extends EscenaBase implements IAccelerationListener {
     @Override
         public void onBackKeyPressed() {
             // Regresar al menú principal
-            admEscenas.crearEscenaMenu();
+        admEscenas.crearEscenaMenu();
             admEscenas.setEscena(TipoEscena.ESCENA_MENU);
             admEscenas.liberarEscenaNivel1();
         guardarMarcadorAlto();
