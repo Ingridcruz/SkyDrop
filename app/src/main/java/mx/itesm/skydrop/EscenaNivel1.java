@@ -330,6 +330,7 @@ public class EscenaNivel1 extends EscenaBase implements IAccelerationListener {
                 valorMarcador=puntos;
                 if (puntos==5000) {
                     juegoCorriendo=false;
+                    guardarMarcadorAlto();
                     // Agrega pantalla de fin
                  Sprite spriteWin = new Sprite(ControlJuego.ANCHO_CAMARA/2,ControlJuego.ALTO_CAMARA/2,
                           regionWin,actividadJuego.getVertexBufferObjectManager());
@@ -485,12 +486,12 @@ public class EscenaNivel1 extends EscenaBase implements IAccelerationListener {
     private void guardarMarcadorAlto() {
         SharedPreferences preferencias = actividadJuego.getSharedPreferences("marcadorAlto", Context.MODE_PRIVATE);
         int anterior = preferencias.getInt("puntos",0);
-        if (puntos>anterior) {
+       // if (puntos==5000) {
             // Nuevo valor mayor, guardarlo
             SharedPreferences.Editor editor = preferencias.edit();
-            editor.putInt("puntos",puntos);
+            editor.putInt("puntos",anterior+puntos);
             editor.commit();
-        }
+      //  }
     }
 
     @Override
