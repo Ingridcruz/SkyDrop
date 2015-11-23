@@ -53,6 +53,11 @@
       <sourceFolder url="file://$MODULE_DIR$/src/main/res" type="java-resource" />
       <sourceFolder url="file://$MODULE_DIR$/src/main/resources" type="java-resource" />
       <sourceFolder url="file://$MODULE_DIR$/src/main/assets" type="java-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/src/main/assets/fondos" type="java-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/src/main/assets/botones" type="java-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/src/main/assets/personajes" type="java-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/src/main/assets/items" type="java-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/src/main/assets/enemigo" type="java-resource" />
       <sourceFolder url="file://$MODULE_DIR$/src/main/aidl" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/main/java" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/main/jni" isTestSource="false" />

@@ -44,12 +44,12 @@ public class EscenaMenu extends EscenaBase
     @Override
     public void cargarRecursos() {
         // Fondo
-        regionFondo = cargarImagen("MenuInicianSinBot.jpg");
+        regionFondo = cargarImagen("fondos/MenuInicio.jpg");
         // Botones del menú
-        regionBtnAcercaDe = cargarImagen("botnextra.png");
-        regionBtnJugar = cargarImagen("sobreplay.png");
-        regionBtnOpciones=cargarImagen("botonOp.jpg");
-        regionBtnRules=cargarImagen("botnrules.png");
+        regionBtnAcercaDe = cargarImagen("botones/btnextra.png");
+        regionBtnJugar = cargarImagen("botones/btnplay.png");
+        regionBtnOpciones=cargarImagen("botones/btnoption.png");
+        regionBtnRules=cargarImagen("botones/btnrules.png");
     }
 
     @Override
@@ -104,7 +104,7 @@ public class EscenaMenu extends EscenaBase
         opcionAcercaDe.setPosition(180,-360);
         opcionJugar.setPosition(180, 50);
         opcionopciones.setPosition(180,-230);
-        opcionrules.setPosition(180, -80);
+        opcionrules.setPosition(180, -85);
 
 
         // Registra el Listener para atender las opciones

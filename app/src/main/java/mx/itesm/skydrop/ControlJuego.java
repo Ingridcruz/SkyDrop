@@ -1,6 +1,8 @@
  package mx.itesm.skydrop;
 
 import android.view.KeyEvent;
+
+import org.andengine.audio.music.Music;
 import org.andengine.engine.camera.Camera;
 import org.andengine.engine.handler.timer.ITimerCallback;
 import org.andengine.engine.handler.timer.TimerHandler;
@@ -28,6 +30,7 @@ public class ControlJuego extends SimpleBaseGameActivity
     protected Camera camara;
     // El administrador de escenas (se encarga de cambiar las escenas)
     private AdministradorEscenas admEscenas;
+    private Music musica;
 
     /*
     Se crea la configuración del Engine.
@@ -40,6 +43,7 @@ public class ControlJuego extends SimpleBaseGameActivity
         camara = new Camera(0,0,ANCHO_CAMARA,ALTO_CAMARA);
         return new EngineOptions(true, ScreenOrientation.PORTRAIT_FIXED,
                 new FillResolutionPolicy(), camara);
+       
     }
 
     // Crea los recursos del juego.

@@ -84,20 +84,20 @@ public class EscenaNivel1 extends EscenaBase implements IAccelerationListener {
 
         @Override
         public void cargarRecursos() {
-            regionCorazon = cargarImagen("Corazon.png");
-            regionFondo = cargarImagen("fond1.jpg");
-            regionFondo2 = cargarImagen("fond1.jpg");
-            regionPersonajeAnimado = cargarImagenMosaico("line.png", 488, 101, 1, 4);
+            regionCorazon = cargarImagen("items/Corazon.png");
+            regionFondo = cargarImagen("fondos/ciudad.jpg");
+            regionFondo2 = cargarImagen("fondos/ciudad.jpg");
+            regionPersonajeAnimado = cargarImagenMosaico("personajes/paloma.png", 488, 101, 1, 4);
             regionEnemigo=cargarImagen("carta.png");
            fontSan = cargarFont("san.ttf");
             regionNube=cargarImagen("nubeobscura.png");
-            regionFin = cargarImagen("gameover.png");
-            regionWin = cargarImagen("win.png");
-            regionBtnPausa = cargarImagen("pause.png");
-            regionPausa = cargarImagen("gameover.png");
-            regionBtnContinuar = cargarImagen("play.png");
-            regionBtnSalir = cargarImagen("back.png");
-            regionBtnReplay=cargarImagen("replay.png");
+            regionFin = cargarImagen("fondos/gameover.png");
+            regionWin = cargarImagen("fondos/win.png");
+            regionBtnPausa = cargarImagen("botones/pause.png");
+            regionPausa = cargarImagen("fondos/gameover.png");
+            regionBtnContinuar = cargarImagen("botones/play.png");
+            regionBtnSalir = cargarImagen("botones/back.png");
+            regionBtnReplay=cargarImagen("botones/replay.png");
 
 
         }
@@ -420,8 +420,8 @@ public class EscenaNivel1 extends EscenaBase implements IAccelerationListener {
                         public boolean onAreaTouched(TouchEvent pSceneTouchEvent, float pTouchAreaLocalX, float pTouchAreaLocalY) {
                             if (pSceneTouchEvent.isActionDown()) {
                                 liberarEscena();
-                                admEscenas.crearEscenaNivel1();
-                                admEscenas.setEscena(TipoEscena.ESCENA_NIVEL1);
+                                admEscenas.crearEscenaNivel2();
+                                admEscenas.setEscena(TipoEscena.ESCENA_NIVEL2);
                                 return true;
                             }
                             return super.onAreaTouched(pSceneTouchEvent, pTouchAreaLocalX, pTouchAreaLocalY);
@@ -483,16 +483,16 @@ public class EscenaNivel1 extends EscenaBase implements IAccelerationListener {
 
     }
 
-    private void guardarMarcadorAlto() {
+   private void guardarMarcadorAlto() {
         SharedPreferences preferencias = actividadJuego.getSharedPreferences("marcadorAlto", Context.MODE_PRIVATE);
-        int anterior = preferencias.getInt("puntos",0);
+      int anterior = preferencias.getInt("puntos",0);
        // if (puntos==5000) {
             // Nuevo valor mayor, guardarlo
-            SharedPreferences.Editor editor = preferencias.edit();
-            editor.putInt("puntos",anterior+puntos);
-            editor.commit();
-      //  }
-    }
+           SharedPreferences.Editor editor = preferencias.edit();
+           editor.putInt("puntos",puntos);
+           editor.commit();
+       }
+
 
     @Override
         public TipoEscena getTipoEscena() {

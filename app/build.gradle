@@ -17,6 +17,11 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    sourceSets {
+        main {
+            assets.srcDirs = ['src/main/assets', 'src/main/assets/fondos', 'src/main/assets/botones', 'src/main/assets/personajes', 'src/main/assets/items', 'src/main/assets/enemigo']
+        }
+    }
 }
 
 dependencies {
