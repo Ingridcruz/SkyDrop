@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
 
+import org.andengine.audio.sound.Sound;
 import org.andengine.engine.camera.hud.HUD;
 import org.andengine.entity.IEntity;
 import org.andengine.entity.modifier.ScaleModifier;
@@ -81,6 +82,7 @@ public class EscenaNivel1 extends EscenaBase implements IAccelerationListener {
     private ITextureRegion regionPausa;
     private ITextureRegion regionBtnPausa;
     private ITextureRegion regionBtnReplay;
+    private Sound sonidoFondo;
 
         @Override
         public void cargarRecursos() {
@@ -94,11 +96,11 @@ public class EscenaNivel1 extends EscenaBase implements IAccelerationListener {
             regionFin = cargarImagen("fondos/gameover.png");
             regionWin = cargarImagen("fondos/win.png");
             regionBtnPausa = cargarImagen("botones/pause.png");
-            regionPausa = cargarImagen("fondos/gameover.png");
+            regionPausa = cargarImagen("fondos/pause.png");
             regionBtnContinuar = cargarImagen("botones/play.png");
             regionBtnSalir = cargarImagen("botones/back.png");
             regionBtnReplay=cargarImagen("botones/replay.png");
-
+            sonidoFondo = cargarEfecto("audio/disparoA.wav");
 
         }
 
@@ -107,7 +109,7 @@ public class EscenaNivel1 extends EscenaBase implements IAccelerationListener {
          final ITexture fontTexture = new BitmapTextureAtlas(actividadJuego.getEngine().getTextureManager(),512,256);
         // Carga el archivo, tamaño 56, antialias y color
          Font tipoLetra = FontFactory.createFromAsset(actividadJuego.getEngine().getFontManager(),
-        fontTexture, actividadJuego.getAssets(), archivo, 40, true, 0xFF00FF00);
+        fontTexture, actividadJuego.getAssets(), archivo, 40, true, 0xFFFFFFFF);
         tipoLetra.load();
         tipoLetra.prepareLetters("Score: 01234567890.".toCharArray());
 
@@ -194,6 +196,7 @@ public class EscenaNivel1 extends EscenaBase implements IAccelerationListener {
         escenaPausa.attachChild(btnSalir);
         registerTouchArea(btnSalir);
         agregarFinJuego();
+        actividadJuego.reproducirMusica("mus.mp3", true);
 
     }
 
@@ -215,7 +218,10 @@ public class EscenaNivel1 extends EscenaBase implements IAccelerationListener {
             @Override
             public boolean onAreaTouched(TouchEvent pSceneTouchEvent, float pTouchAreaLocalX, float pTouchAreaLocalY) {
                 if (pSceneTouchEvent.isActionDown()) {
-                    reiniciarJuego();
+
+                    liberarEscena();
+                    admEscenas.crearEscenaNivel2();
+                    admEscenas.setEscena(TipoEscena.ESCENA_NIVEL2);
                     return true;
                 }
                 return super.onAreaTouched(pSceneTouchEvent, pTouchAreaLocalX, pTouchAreaLocalY);
@@ -340,7 +346,9 @@ public class EscenaNivel1 extends EscenaBase implements IAccelerationListener {
                         @Override
                         public boolean onAreaTouched(TouchEvent pSceneTouchEvent, float pTouchAreaLocalX, float pTouchAreaLocalY) {
                             if (pSceneTouchEvent.isActionDown()) {
-                                reiniciarJuego();
+                                liberarEscena();
+                                admEscenas.crearEscenaNivel2();
+                                admEscenas.setEscena(TipoEscena.ESCENA_NIVEL2);
                                 return true;
                             }
                             return super.onAreaTouched(pSceneTouchEvent, pTouchAreaLocalX, pTouchAreaLocalY);
@@ -420,8 +428,8 @@ public class EscenaNivel1 extends EscenaBase implements IAccelerationListener {
                         public boolean onAreaTouched(TouchEvent pSceneTouchEvent, float pTouchAreaLocalX, float pTouchAreaLocalY) {
                             if (pSceneTouchEvent.isActionDown()) {
                                 liberarEscena();
-                                admEscenas.crearEscenaNivel2();
-                                admEscenas.setEscena(TipoEscena.ESCENA_NIVEL2);
+                                admEscenas.crearEscenaNivel1();
+                                admEscenas.setEscena(TipoEscena.ESCENA_NIVEL1);
                                 return true;
                             }
                             return super.onAreaTouched(pSceneTouchEvent, pTouchAreaLocalX, pTouchAreaLocalY);

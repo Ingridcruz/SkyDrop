@@ -82,20 +82,20 @@ public class EscenaNivel2 extends EscenaBase implements IAccelerationListener {
 
     @Override
     public void cargarRecursos() {
-        regionCorazon = cargarImagen("Corazon.png");
-        regionFondo = cargarImagen("B1.jpg");
-        regionFondo2 = cargarImagen("B1.jpg");
-        regionPersonajeAnimado = cargarImagenMosaico("aguila.png",661,131, 1, 4);
+        regionCorazon = cargarImagen("items/Corazon.png");
+        regionFondo = cargarImagen("fondos/selva.jpg");
+        regionFondo2 = cargarImagen("fondos/selva.jpg");
+        regionPersonajeAnimado = cargarImagenMosaico("personajes/aguilas.png",661,131, 1, 4);
         regionEnemigo=cargarImagen("carta.png");
         fontSan = cargarFont("san.ttf");
         regionNube=cargarImagen("nubeobscura.png");
-        regionFin = cargarImagen("gameover.png");
-        regionWin = cargarImagen("win.png");
-        regionBtnPausa = cargarImagen("pause.png");
-        regionPausa = cargarImagen("gameover.png");
-        regionBtnContinuar = cargarImagen("play.png");
-        regionBtnSalir = cargarImagen("back.png");
-        regionBtnReplay=cargarImagen("replay.png");
+        regionFin = cargarImagen("fondos/gameover.png");
+        regionWin = cargarImagen("fondos/win.png");
+        regionBtnPausa = cargarImagen("botones/pause.png");
+        regionPausa = cargarImagen("fondos/pause.png");
+        regionBtnContinuar = cargarImagen("botones/play.png");
+        regionBtnSalir = cargarImagen("botones/back.png");
+        regionBtnReplay=cargarImagen("botones/replay.png");
 
 
     }

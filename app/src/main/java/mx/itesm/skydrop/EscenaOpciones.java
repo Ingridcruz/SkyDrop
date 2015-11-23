@@ -58,20 +58,21 @@ public class EscenaOpciones extends EscenaBase {
 
 
     private void agregarTextoPuntos() {
-        final Text txtPuntos = new Text(800,200, fuente, "Total score: 00000000", actividadJuego.getVertexBufferObjectManager());
+        final Text txtPuntos = new Text(400,700, fuente, "Total score: 00000000", actividadJuego.getVertexBufferObjectManager());
         attachChild(txtPuntos);
 
         SharedPreferences preferencias = actividadJuego.getSharedPreferences("marcadorAlto", Context.MODE_PRIVATE);
         final int valor = preferencias.getInt("puntos", 0);
         txtPuntos.setText("Total Score:" + valor);
-        Sprite spriteScore = new Sprite(700, 100,
+        Sprite spriteScore = new Sprite(400, 500,
                 regionScore, actividadJuego.getVertexBufferObjectManager()) {
             @Override
             public boolean onAreaTouched(TouchEvent pSceneTouchEvent, float pTouchAreaLocalX, float pTouchAreaLocalY) {
                 if (pSceneTouchEvent.isActionDown()) {
 
                     SharedPreferences preferencias = actividadJuego.getSharedPreferences("marcadorAlto", Context.MODE_PRIVATE);
-                    txtPuntos.setText("Total Score:" + 0);
+                    txtPuntos.setText("Total Score:" +0);
+                    int valor =0;
 
                 }
                 return super.onAreaTouched(pSceneTouchEvent, pTouchAreaLocalX, pTouchAreaLocalY);
