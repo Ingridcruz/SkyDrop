@@ -53,7 +53,7 @@ public class EscenaMenu extends EscenaBase
         regionBtnJugar = cargarImagen("botones/btnplay.png");
         regionBtnOpciones=cargarImagen("botones/btnoption.png");
         regionBtnRules=cargarImagen("botones/btnrules.png");
-        regionBtnHistoria=cargarImagen("histor.png");
+        regionBtnHistoria=cargarImagen("botones/histor.png");
     }
 
     @Override

@@ -76,6 +76,9 @@ public class EscenaOpciones extends EscenaBase {
                 if (pSceneTouchEvent.isActionDown()) {
 
                     SharedPreferences preferencias = actividadJuego.getSharedPreferences("marcadorAlto", Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = preferencias.edit();
+                    editor.putInt("puntos",0);
+                    editor.commit();
                     txtPuntos.setText("" +0);
                     int valor =0 ;
 

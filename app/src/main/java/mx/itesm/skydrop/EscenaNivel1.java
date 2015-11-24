@@ -496,7 +496,7 @@ public class EscenaNivel1 extends EscenaBase implements IAccelerationListener {
        // if (puntos==5000) {
             // Nuevo valor mayor, guardarlo
            SharedPreferences.Editor editor = preferencias.edit();
-           editor.putInt("puntos",puntos);
+           editor.putInt("puntos",puntos+anterior);
            editor.commit();
        }
 

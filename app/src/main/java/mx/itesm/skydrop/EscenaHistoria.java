@@ -28,7 +28,7 @@ public class EscenaHistoria extends EscenaBase
         // Regresar al menÃº principal
         admEscenas.crearEscenaMenu();
         admEscenas.setEscena(TipoEscena.ESCENA_MENU);
-        admEscenas.liberarEscenaRules();
+        admEscenas.liberarEscenaHistoria();
     }
 
     @Override
