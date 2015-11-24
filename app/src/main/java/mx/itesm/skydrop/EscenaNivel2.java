@@ -95,7 +95,7 @@ public class EscenaNivel2 extends EscenaBase implements IAccelerationListener {
         regionNube=cargarImagen("nubeobscura.png");
         regionFin = cargarImagen("fondos/gameoverr.png");
         regionWin = cargarImagen("fondos/winn.png");
-        regionBtnPausa = cargarImagen("botones/pause.png");
+        regionBtnPausa = cargarImagen("botones/btnpausa.png");
         regionPausa = cargarImagen("fondos/pause.png");
         regionBtnContinuar = cargarImagen("botones/play.png");
         regionBtnSalir = cargarImagen("botones/back.png");
@@ -141,7 +141,7 @@ public class EscenaNivel2 extends EscenaBase implements IAccelerationListener {
         agregarHUD();
 
         // Crea el botón de PAUSA y lo agrega a la escena
-        Sprite btnPausa = new Sprite(700, ControlJuego.ALTO_CAMARA - regionBtnPausa.getHeight(),
+        Sprite btnPausa = new Sprite(720, 1230,
                 regionBtnPausa, actividadJuego.getVertexBufferObjectManager()) {
             @Override
             public boolean onAreaTouched(TouchEvent pSceneTouchEvent, float pTouchAreaLocalX, float pTouchAreaLocalY) {
@@ -156,6 +156,7 @@ public class EscenaNivel2 extends EscenaBase implements IAccelerationListener {
                 return super.onAreaTouched(pSceneTouchEvent, pTouchAreaLocalX, pTouchAreaLocalY);
             }
         };
+        btnPausa.setScale(0.80f);
         attachChild(btnPausa);
         registerTouchArea(btnPausa);
 
@@ -220,9 +221,10 @@ public class EscenaNivel2 extends EscenaBase implements IAccelerationListener {
                 if (pSceneTouchEvent.isActionDown()) {
 
                     // liberarEscena();
+                    admEscenas.liberarEscenaNivel2();
                     admEscenas.crearEscenaNivel3();
                     admEscenas.setEscena(TipoEscena.ESCENA_NIVEL3);
-                    admEscenas.liberarEscenaNivel2();
+
                     return true;
                 }
                 return super.onAreaTouched(pSceneTouchEvent, pTouchAreaLocalX, pTouchAreaLocalY);
@@ -237,11 +239,11 @@ public class EscenaNivel2 extends EscenaBase implements IAccelerationListener {
                 regionBtnSalir, actividadJuego.getVertexBufferObjectManager()) {
             @Override
             public boolean onAreaTouched(TouchEvent pSceneTouchEvent, float pTouchAreaLocalX, float pTouchAreaLocalY) {
-                if (pSceneTouchEvent.isActionDown()) {
+                if (pSceneTouchEvent.isActionUp()) {
                     onBackKeyPressed();
-                    return true;
+
                 }
-                return super.onAreaTouched(pSceneTouchEvent, pTouchAreaLocalX, pTouchAreaLocalY);
+                return true; //super.onAreaTouched(pSceneTouchEvent, pTouchAreaLocalX, pTouchAreaLocalY);
             }
         };
         //btnContinuar.setAlpha(0.4f);
@@ -345,9 +347,10 @@ public class EscenaNivel2 extends EscenaBase implements IAccelerationListener {
                         @Override
                         public boolean onAreaTouched(TouchEvent pSceneTouchEvent, float pTouchAreaLocalX, float pTouchAreaLocalY) {
                             if (pSceneTouchEvent.isActionDown()) {
+                                admEscenas.liberarEscenaNivel2();
                                 admEscenas.crearEscenaNivel3();
                                 admEscenas.setEscena(TipoEscena.ESCENA_NIVEL3);
-                                admEscenas.liberarEscenaNivel2();
+
                                 return true;
                             }
                             return super.onAreaTouched(pSceneTouchEvent, pTouchAreaLocalX, pTouchAreaLocalY);
@@ -362,11 +365,11 @@ public class EscenaNivel2 extends EscenaBase implements IAccelerationListener {
                             regionBtnSalir, actividadJuego.getVertexBufferObjectManager()) {
                         @Override
                         public boolean onAreaTouched(TouchEvent pSceneTouchEvent, float pTouchAreaLocalX, float pTouchAreaLocalY) {
-                            if (pSceneTouchEvent.isActionDown()) {
+                            if (pSceneTouchEvent.isActionUp()) {
                                 onBackKeyPressed();
-                                return true;
+
                             }
-                            return super.onAreaTouched(pSceneTouchEvent, pTouchAreaLocalX, pTouchAreaLocalY);
+                            return true; //super.onAreaTouched(pSceneTouchEvent, pTouchAreaLocalX, pTouchAreaLocalY);
                         }
                     };
                     //btnContinuar.setAlpha(0.4f);
@@ -439,11 +442,11 @@ public class EscenaNivel2 extends EscenaBase implements IAccelerationListener {
                             regionBtnSalir, actividadJuego.getVertexBufferObjectManager()) {
                         @Override
                         public boolean onAreaTouched(TouchEvent pSceneTouchEvent, float pTouchAreaLocalX, float pTouchAreaLocalY) {
-                            if (pSceneTouchEvent.isActionDown()) {
+                            if (pSceneTouchEvent.isActionUp()) {
                                 onBackKeyPressed();
-                                return true;
+
                             }
-                            return super.onAreaTouched(pSceneTouchEvent, pTouchAreaLocalX, pTouchAreaLocalY);
+                            return true; //super.onAreaTouched(pSceneTouchEvent, pTouchAreaLocalX, pTouchAreaLocalY);
                         }
                     };
                     //btnContinuar.setAlpha(0.4f);
@@ -532,7 +535,7 @@ public class EscenaNivel2 extends EscenaBase implements IAccelerationListener {
 
     @Override
     public void onAccelerationChanged(AccelerationData pAccelerationData) {
-        float dx = pAccelerationData.getX()*2;
+        float dx = pAccelerationData.getX()*1.5f;
         //desplazamiento en x
 
         float dy = 0;
