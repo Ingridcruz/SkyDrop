@@ -3,11 +3,11 @@ package mx.itesm.skydrop;
 import org.andengine.engine.Engine;
 
 /**
- * Administra la escena que se verÃ¡ en la pantalla
+ * Administra la escena que se verÃƒÂ¡ en la pantalla
  */
 public class AdministradorEscenas
 {
-    // Instancia Ãºnica
+    // Instancia ÃƒÂºnica
     private static final AdministradorEscenas INSTANCE =
             new AdministradorEscenas();
     protected ControlJuego actividadJuego;
@@ -18,14 +18,15 @@ public class AdministradorEscenas
     private EscenaBase escenaAcercaDe;
     private EscenaBase escenaOpciones;
     private EscenaBase escenaRules;
+    private EscenaBase escenaHistoria;
     private EscenaBase escenaNivel1;
     private EscenaBase escenaNivel2;
     private EscenaBase escenaNivel3;
 
 
-    // El tipo de escena que se estÃ¡ mostrando
+    // El tipo de escena que se estÃƒÂ¡ mostrando
     private TipoEscena tipoEscenaActual = TipoEscena.ESCENA_SPLASH;
-    // La escena que se estÃ¡ mostrando
+    // La escena que se estÃƒÂ¡ mostrando
     private EscenaBase escenaActual;
     // El engine para hacer el cambio de escenas
     private Engine engine;
@@ -52,7 +53,7 @@ public class AdministradorEscenas
     }
 
     /*
-     * Pone en la pantalla la escena que llega como parÃ¡metro y guarda el nuevo estado
+     * Pone en la pantalla la escena que llega como parÃƒÂ¡metro y guarda el nuevo estado
      */
     private void setEscenaBase(EscenaBase nueva) {
         engine.setScene(nueva);
@@ -61,7 +62,7 @@ public class AdministradorEscenas
     }
 
     /**
-     * Cambia a la escena especificada en el parÃ¡metro
+     * Cambia a la escena especificada en el parÃƒÂ¡metro
      * @param nuevoTipo la nueva escena que se quiere mostrar
      */
     public void setEscena(TipoEscena nuevoTipo) {
@@ -80,6 +81,9 @@ public class AdministradorEscenas
                 break;
             case ESCENA_RULES:
                 setEscenaBase(escenaRules);
+                break;
+            case ESCENA_HISTORIA:
+                setEscenaBase(escenaHistoria);
                 break;
             case ESCENA_NIVEL1:
                 setEscenaBase(escenaNivel1);
@@ -142,9 +146,19 @@ public class AdministradorEscenas
         // Carga los recursos
         escenaRules = new EscenaRules();
     }
+
     public void liberarEscenaRules() {
         escenaRules.liberarEscena();
         escenaRules = null;
+    }
+
+    public void liberarEscenaHistoria() {
+        escenaHistoria.liberarEscena();
+        escenaHistoria = null;
+    }
+    public void crearEscenaHistoria() {
+        // Carga los recursos
+        escenaHistoria = new EscenaHistoria();
     }
 
     public void crearEscenaNivel1() {
