@@ -21,16 +21,20 @@ public class EscenaOpciones extends EscenaBase {
     // Regiones para imágenes
     private ITextureRegion regionFondo;
     private ITextureRegion regionScore;
+    private ITextureRegion regionSonido;
+
     // Sprite para el fondo
     private Sprite spriteFondo;
     private Sprite spriteScore;
     private IFont fuente;
+    private Sprite sonido;
 
     @Override
     public void cargarRecursos() {
-        regionFondo = cargarImagen("MenuOpciones.jpg");
+        regionFondo = cargarImagen("fondos/options.jpg");
         fuente = cargarFont("san.ttf");
         regionScore = cargarImagen("botones/resetscor.png");
+        regionSonido = cargarImagen("botones/sonido.png");
     }
 
     private IFont cargarFont(String archivo) {
@@ -38,9 +42,9 @@ public class EscenaOpciones extends EscenaBase {
         final ITexture fontTexture = new BitmapTextureAtlas(actividadJuego.getEngine().getTextureManager(), 512, 256);
         // Carga el archivo, tamaño 56, antialias y color
         Font tipoLetra = FontFactory.createFromAsset(actividadJuego.getEngine().getFontManager(),
-                fontTexture, actividadJuego.getAssets(), archivo, 40, true, 0xFFFFFFFF);
+                fontTexture, actividadJuego.getAssets(), archivo, 80, true, 0xFFFFFFFF);
         tipoLetra.load();
-        tipoLetra.prepareLetters("Total Scre: 01234567890.".toCharArray());
+        tipoLetra.prepareLetters("01234567890.".toCharArray());
 
         return tipoLetra;
     }
@@ -51,28 +55,29 @@ public class EscenaOpciones extends EscenaBase {
         attachChild(spriteFondo);
         agregarTextoPuntos();
 
-
+        sonido = cargarSprite(400, 170, regionSonido);
+        attachChild(sonido);
     }
 
 
 
 
     private void agregarTextoPuntos() {
-        final Text txtPuntos = new Text(400,700, fuente, "Total score: 00000000", actividadJuego.getVertexBufferObjectManager());
+        final Text txtPuntos = new Text(400,600, fuente, "0000000000", actividadJuego.getVertexBufferObjectManager());
         attachChild(txtPuntos);
 
         SharedPreferences preferencias = actividadJuego.getSharedPreferences("marcadorAlto", Context.MODE_PRIVATE);
         final int valor = preferencias.getInt("puntos", 0);
-        txtPuntos.setText("Total Score:" + valor);
-        Sprite spriteScore = new Sprite(400, 500,
+        txtPuntos.setText("" + valor);
+        Sprite spriteScore = new Sprite(400, 400,
                 regionScore, actividadJuego.getVertexBufferObjectManager()) {
             @Override
             public boolean onAreaTouched(TouchEvent pSceneTouchEvent, float pTouchAreaLocalX, float pTouchAreaLocalY) {
                 if (pSceneTouchEvent.isActionDown()) {
 
                     SharedPreferences preferencias = actividadJuego.getSharedPreferences("marcadorAlto", Context.MODE_PRIVATE);
-                    txtPuntos.setText("Total Score:" +0);
-                    int valor =0;
+                    txtPuntos.setText("" +0);
+                    int valor =0 ;
 
                 }
                 return super.onAreaTouched(pSceneTouchEvent, pTouchAreaLocalX, pTouchAreaLocalY);

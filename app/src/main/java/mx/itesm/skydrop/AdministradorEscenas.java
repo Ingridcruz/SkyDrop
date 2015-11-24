@@ -3,11 +3,11 @@ package mx.itesm.skydrop;
 import org.andengine.engine.Engine;
 
 /**
- * Administra la escena que se verá en la pantalla
+ * Administra la escena que se verÃ¡ en la pantalla
  */
 public class AdministradorEscenas
 {
-    // Instancia única
+    // Instancia Ãºnica
     private static final AdministradorEscenas INSTANCE =
             new AdministradorEscenas();
     protected ControlJuego actividadJuego;
@@ -20,11 +20,12 @@ public class AdministradorEscenas
     private EscenaBase escenaRules;
     private EscenaBase escenaNivel1;
     private EscenaBase escenaNivel2;
+    private EscenaBase escenaNivel3;
 
 
-    // El tipo de escena que se está mostrando
+    // El tipo de escena que se estÃ¡ mostrando
     private TipoEscena tipoEscenaActual = TipoEscena.ESCENA_SPLASH;
-    // La escena que se está mostrando
+    // La escena que se estÃ¡ mostrando
     private EscenaBase escenaActual;
     // El engine para hacer el cambio de escenas
     private Engine engine;
@@ -51,7 +52,7 @@ public class AdministradorEscenas
     }
 
     /*
-     * Pone en la pantalla la escena que llega como parámetro y guarda el nuevo estado
+     * Pone en la pantalla la escena que llega como parÃ¡metro y guarda el nuevo estado
      */
     private void setEscenaBase(EscenaBase nueva) {
         engine.setScene(nueva);
@@ -60,7 +61,7 @@ public class AdministradorEscenas
     }
 
     /**
-     * Cambia a la escena especificada en el parámetro
+     * Cambia a la escena especificada en el parÃ¡metro
      * @param nuevoTipo la nueva escena que se quiere mostrar
      */
     public void setEscena(TipoEscena nuevoTipo) {
@@ -85,6 +86,9 @@ public class AdministradorEscenas
                 break;
             case ESCENA_NIVEL2:
                 setEscenaBase(escenaNivel2);
+                break;
+            case ESCENA_NIVEL3:
+                setEscenaBase(escenaNivel3);
                 break;
 
         }
@@ -157,6 +161,15 @@ public class AdministradorEscenas
     public void liberarEscenaNivel2() {
         escenaNivel2.liberarEscena();
         escenaNivel2 = null;
+
+    }
+    public void crearEscenaNivel3() {
+        escenaNivel3 = new EscenaNivel3();
+    }
+
+    public void liberarEscenaNivel3() {
+        escenaNivel3.liberarEscena();
+        escenaNivel3 = null;
 
     }
 

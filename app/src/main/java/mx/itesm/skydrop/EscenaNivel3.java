@@ -31,7 +31,7 @@ import java.util.ArrayList;
  * Created by Ingrid on 01/10/2015.
  */
 
-public class EscenaNivel1 extends EscenaBase implements IAccelerationListener {
+public class EscenaNivel3 extends EscenaBase implements IAccelerationListener {
 
     private int puntos = 0;
     private int vidas= 3;
@@ -58,8 +58,8 @@ public class EscenaNivel1 extends EscenaBase implements IAccelerationListener {
     // HUD (Heads-Up Display)
     private HUD hud;
     // Sprite para el fondo
-        private Sprite spriteFondo;
-        private Sprite spriteFondo2;
+    private Sprite spriteFondo;
+    private Sprite spriteFondo2;
     private Sprite spriteCorazon;
     private ArrayList<Enemigo> listaSobres;
     private ITextureRegion regionEnemigo;
@@ -75,50 +75,50 @@ public class EscenaNivel1 extends EscenaBase implements IAccelerationListener {
 
     // Tiempo para generar listaSobres
     private float tiempoEnemigos = 0;
-    private float LIMITE_TIEMPO = 2.5f;
+    private float LIMITE_TIEMPO = 2f;
     private float tiempoNube = 0;
-    private float LIMITE_TIEMPON = 3f;
+    private float LIMITE_TIEMPON = 1.5f;
     private CameraScene escenaPausa;    // La escena que se muestra al hacer pausa
     private ITextureRegion regionPausa;
     private ITextureRegion regionBtnPausa;
     private ITextureRegion regionBtnReplay;
     private Sound sonidoFondo;
 
-        @Override
-        public void cargarRecursos() {
-            regionCorazon = cargarImagen("items/Corazon.png");
-            regionFondo = cargarImagen("fondos/ciuda1.jpg");
-            regionFondo2 = cargarImagen("fondos/ciuda2.jpg");
-            regionPersonajeAnimado = cargarImagenMosaico("personajes/cockato.png", 895, 132, 1, 6);
-            regionEnemigo=cargarImagen("items/carta.png");
-           fontSan = cargarFont("san.ttf");
-            regionNube=cargarImagen("nubeobscura.png");
-            regionFin = cargarImagen("fondos/gameoverr.png");
-            regionWin = cargarImagen("fondos/winn.png");
-            regionBtnPausa = cargarImagen("botones/pause.png");
-            regionPausa = cargarImagen("fondos/pause.png");
-            regionBtnContinuar = cargarImagen("botones/play.png");
-            regionBtnSalir = cargarImagen("botones/back.png");
-            regionBtnReplay=cargarImagen("botones/replay.png");
-            sonidoFondo = cargarEfecto("audio/disparoA.wav");
+    @Override
+    public void cargarRecursos() {
+        regionCorazon = cargarImagen("items/Corazon.png");
+        regionFondo = cargarImagen("fondos/nieves.jpg");
+        regionFondo2 = cargarImagen("fondos/nieves.jpg");
+        regionPersonajeAnimado = cargarImagenMosaico("personajes/aguila.png", 960, 131, 1, 6);
+        regionEnemigo=cargarImagen("items/carta.png");
+        fontSan = cargarFont("san.ttf");
+        regionNube=cargarImagen("nubeobscura.png");
+        regionFin = cargarImagen("fondos/gameoverr.png");
+        regionWin = cargarImagen("fondos/winn.png");
+        regionBtnPausa = cargarImagen("botones/pause.png");
+        regionPausa = cargarImagen("fondos/pause.png");
+        regionBtnContinuar = cargarImagen("botones/play.png");
+        regionBtnSalir = cargarImagen("botones/back.png");
+        regionBtnReplay=cargarImagen("botones/replay.png");
+        sonidoFondo = cargarEfecto("audio/disparoA.wav");
 
-        }
+    }
 
-         private IFont cargarFont(String archivo) {
+    private IFont cargarFont(String archivo) {
         // La imagen que contiene cada símbolo
-         final ITexture fontTexture = new BitmapTextureAtlas(actividadJuego.getEngine().getTextureManager(),512,256);
+        final ITexture fontTexture = new BitmapTextureAtlas(actividadJuego.getEngine().getTextureManager(),512,256);
         // Carga el archivo, tamaño 56, antialias y color
-         Font tipoLetra = FontFactory.createFromAsset(actividadJuego.getEngine().getFontManager(),
-        fontTexture, actividadJuego.getAssets(), archivo, 40, true, 0xFFFFFFFF);
+        Font tipoLetra = FontFactory.createFromAsset(actividadJuego.getEngine().getFontManager(),
+                fontTexture, actividadJuego.getAssets(), archivo, 40, true, 0xFFFFFFFF);
         tipoLetra.load();
         tipoLetra.prepareLetters("Score: 01234567890.".toCharArray());
 
-         return tipoLetra;
-   }
+        return tipoLetra;
+    }
 
 
     @Override
-        public void crearEscena() {
+    public void crearEscena() {
         spriteFondo = cargarSprite(ControlJuego.ANCHO_CAMARA / 2, regionFondo.getHeight() / 2, regionFondo);
         attachChild(spriteFondo);
         spriteFondo2 = cargarSprite(ControlJuego.ANCHO_CAMARA / 2, regionFondo2.getHeight() * 1.5f, regionFondo2);
@@ -138,7 +138,7 @@ public class EscenaNivel1 extends EscenaBase implements IAccelerationListener {
 
 
         // Agregar flechas y el txtMarcador/valorMarcador
-      agregarHUD();
+        agregarHUD();
 
         // Crea el botón de PAUSA y lo agrega a la escena
         Sprite btnPausa = new Sprite(700, ControlJuego.ALTO_CAMARA - regionBtnPausa.getHeight(),
@@ -146,9 +146,9 @@ public class EscenaNivel1 extends EscenaBase implements IAccelerationListener {
             @Override
             public boolean onAreaTouched(TouchEvent pSceneTouchEvent, float pTouchAreaLocalX, float pTouchAreaLocalY) {
                 if (pSceneTouchEvent.isActionDown()) {
-                  //  if (juegoCorriendo) {
-                        pausarJuego();
-                  //  }
+                    //  if (juegoCorriendo) {
+                    pausarJuego();
+                    //  }
                     if(juegoGanado==false){
 
                     }
@@ -171,8 +171,8 @@ public class EscenaNivel1 extends EscenaBase implements IAccelerationListener {
             public boolean onAreaTouched(TouchEvent pSceneTouchEvent, float pTouchAreaLocalX, float pTouchAreaLocalY) {
                 if (pSceneTouchEvent.isActionDown()) {
                     liberarEscena();
-                    admEscenas.crearEscenaNivel1();
-                    admEscenas.setEscena(TipoEscena.ESCENA_NIVEL1);
+                    admEscenas.crearEscenaNivel3();
+                    admEscenas.setEscena(TipoEscena.ESCENA_NIVEL3);
                     return true;
                 }
                 return super.onAreaTouched(pSceneTouchEvent, pTouchAreaLocalX, pTouchAreaLocalY);
@@ -207,7 +207,7 @@ public class EscenaNivel1 extends EscenaBase implements IAccelerationListener {
         //regionPausa);
         Rectangle fondoFin = new Rectangle(ControlJuego.ANCHO_CAMARA/2, ControlJuego.ALTO_CAMARA/2,ControlJuego.ANCHO_CAMARA, ControlJuego.ALTO_CAMARA, actividadJuego.getVertexBufferObjectManager());
         fondoFin.setColor(0xAA000000);
-       escenaFin.attachChild(fondoFin);
+        escenaFin.attachChild(fondoFin);
         Sprite spriteWin = new Sprite(ControlJuego.ANCHO_CAMARA/2,ControlJuego.ALTO_CAMARA/2,
                 regionWin,actividadJuego.getVertexBufferObjectManager());
         escenaFin.attachChild(spriteWin);
@@ -219,10 +219,10 @@ public class EscenaNivel1 extends EscenaBase implements IAccelerationListener {
             public boolean onAreaTouched(TouchEvent pSceneTouchEvent, float pTouchAreaLocalX, float pTouchAreaLocalY) {
                 if (pSceneTouchEvent.isActionDown()) {
 
-                   // liberarEscena();
-                   admEscenas.crearEscenaNivel2();
-                   admEscenas.setEscena(TipoEscena.ESCENA_NIVEL2);
-                    admEscenas.liberarEscenaNivel1();
+                    // liberarEscena();
+                    admEscenas.crearEscenaNivel3();
+                    admEscenas.setEscena(TipoEscena.ESCENA_NIVEL3);
+                    admEscenas.liberarEscenaNivel3();
                     return true;
                 }
                 return super.onAreaTouched(pSceneTouchEvent, pTouchAreaLocalX, pTouchAreaLocalY);
@@ -253,8 +253,8 @@ public class EscenaNivel1 extends EscenaBase implements IAccelerationListener {
 
     private void reiniciarJuego() {
         liberarEscena();
-        admEscenas.crearEscenaNivel2();
-        admEscenas.setEscena(TipoEscena.ESCENA_NIVEL2);
+        admEscenas.crearEscenaNivel3();
+        admEscenas.setEscena(TipoEscena.ESCENA_NIVEL3);
     }
 
 
@@ -277,8 +277,8 @@ public class EscenaNivel1 extends EscenaBase implements IAccelerationListener {
     private void agregarHUD() {
         hud = new HUD();
         txtMarcador = new Text(ControlJuego.ANCHO_CAMARA/2,ControlJuego.ALTO_CAMARA-100,
-               fontSan,"Puntos: 00000      ",actividadJuego.getVertexBufferObjectManager());
-       hud.attachChild(txtMarcador);
+                fontSan,"Puntos: 00000      ",actividadJuego.getVertexBufferObjectManager());
+        hud.attachChild(txtMarcador);
         txtVidas = new Text(42,1230,
                 fontSan,"Puntos: 00000      ",actividadJuego.getVertexBufferObjectManager());
         hud.attachChild(txtVidas);
@@ -330,24 +330,24 @@ public class EscenaNivel1 extends EscenaBase implements IAccelerationListener {
             if (spritePersonaje.collidesWith(enemigo.getSpriteEnemigo())) {
                 detachChild(enemigo.getSpriteEnemigo());
                 listaSobres.remove(enemigo);
-                puntos = puntos+200;
+                puntos = puntos+250;
                 Log.i("ENERGIA", "Score: " + puntos);
                 valorMarcador=puntos;
-                if (puntos==3000) {
+                if (puntos==5000) {
                     juegoCorriendo=false;
                     guardarMarcadorAlto();
                     // Agrega pantalla de fin
-                 Sprite spriteWin = new Sprite(ControlJuego.ANCHO_CAMARA/2,ControlJuego.ALTO_CAMARA/2,
-                          regionWin,actividadJuego.getVertexBufferObjectManager());
+                    Sprite spriteWin = new Sprite(ControlJuego.ANCHO_CAMARA/2,ControlJuego.ALTO_CAMARA/2,
+                            regionWin,actividadJuego.getVertexBufferObjectManager());
                     attachChild(spriteWin);
                     Sprite btnContinuar = new Sprite(240, 270,
                             regionBtnContinuar, actividadJuego.getVertexBufferObjectManager()) {
                         @Override
                         public boolean onAreaTouched(TouchEvent pSceneTouchEvent, float pTouchAreaLocalX, float pTouchAreaLocalY) {
                             if (pSceneTouchEvent.isActionDown()) {
-                                admEscenas.crearEscenaNivel2();
-                                admEscenas.setEscena(TipoEscena.ESCENA_NIVEL2);
-                                admEscenas.liberarEscenaNivel1();
+                                admEscenas.crearEscenaNivel3();
+                                admEscenas.setEscena(TipoEscena.ESCENA_NIVEL3);
+                                admEscenas.liberarEscenaNivel3();
                                 return true;
                             }
                             return super.onAreaTouched(pSceneTouchEvent, pTouchAreaLocalX, pTouchAreaLocalY);
@@ -425,8 +425,8 @@ public class EscenaNivel1 extends EscenaBase implements IAccelerationListener {
                         public boolean onAreaTouched(TouchEvent pSceneTouchEvent, float pTouchAreaLocalX, float pTouchAreaLocalY) {
                             if (pSceneTouchEvent.isActionDown()) {
                                 liberarEscena();
-                                admEscenas.crearEscenaNivel1();
-                                admEscenas.setEscena(TipoEscena.ESCENA_NIVEL1);
+                                admEscenas.crearEscenaNivel3();
+                                admEscenas.setEscena(TipoEscena.ESCENA_NIVEL3);
                                 return true;
                             }
                             return super.onAreaTouched(pSceneTouchEvent, pTouchAreaLocalX, pTouchAreaLocalY);
@@ -453,7 +453,7 @@ public class EscenaNivel1 extends EscenaBase implements IAccelerationListener {
             }
         }
 
-       txtMarcador.setText("Score : " + (valorMarcador));
+        txtMarcador.setText("Score : " + (valorMarcador));
         txtVidas.setText(" "+valorVidas+" ");
     }
 
@@ -479,51 +479,51 @@ public class EscenaNivel1 extends EscenaBase implements IAccelerationListener {
 
 
     @Override
-        public void onBackKeyPressed() {
-            // Regresar al menú principal
+    public void onBackKeyPressed() {
+        // Regresar al menú principal
         admEscenas.crearEscenaMenu();
-            admEscenas.setEscena(TipoEscena.ESCENA_MENU);
-            admEscenas.liberarEscenaNivel1();
+        admEscenas.setEscena(TipoEscena.ESCENA_MENU);
+        admEscenas.liberarEscenaNivel3();
         guardarMarcadorAlto();
 
     }
 
-   private void guardarMarcadorAlto() {
+    private void guardarMarcadorAlto() {
         SharedPreferences preferencias = actividadJuego.getSharedPreferences("marcadorAlto", Context.MODE_PRIVATE);
-      int anterior = preferencias.getInt("puntos",0);
-       // if (puntos==5000) {
-            // Nuevo valor mayor, guardarlo
-           SharedPreferences.Editor editor = preferencias.edit();
-           editor.putInt("puntos",puntos);
-           editor.commit();
-       }
+        int anterior = preferencias.getInt("puntos",0);
+        // if (puntos==5000) {
+        // Nuevo valor mayor, guardarlo
+        SharedPreferences.Editor editor = preferencias.edit();
+        editor.putInt("puntos",puntos+anterior);
+        editor.commit();
+    }
 
 
     @Override
-        public TipoEscena getTipoEscena() {
-            return TipoEscena.ESCENA_NIVEL1;
-        }
-        @Override
-        public void liberarEscena() {
-            liberarRecursos();
-            this.detachSelf();
-            this.dispose();
-        }
-        @Override
-        public void liberarRecursos() {
-            actividadJuego.camara.setHUD(null);
-            actividadJuego.getEngine().disableAccelerationSensor(actividadJuego);
-            regionFondo.getTexture().unload();
-            regionFondo = null;
-            regionPersonajeAnimado.getTexture().unload();
-            regionPersonajeAnimado = null;
-            regionEnemigo.getTexture().unload();
-            regionEnemigo = null;
-            regionFin.getTexture().unload();
-            regionFin = null;
-            regionWin.getTexture().unload();
-            regionWin = null;
-        }
+    public TipoEscena getTipoEscena() {
+        return TipoEscena.ESCENA_NIVEL3;
+    }
+    @Override
+    public void liberarEscena() {
+        liberarRecursos();
+        this.detachSelf();
+        this.dispose();
+    }
+    @Override
+    public void liberarRecursos() {
+        actividadJuego.camara.setHUD(null);
+        actividadJuego.getEngine().disableAccelerationSensor(actividadJuego);
+        regionFondo.getTexture().unload();
+        regionFondo = null;
+        regionPersonajeAnimado.getTexture().unload();
+        regionPersonajeAnimado = null;
+        regionEnemigo.getTexture().unload();
+        regionEnemigo = null;
+        regionFin.getTexture().unload();
+        regionFin = null;
+        regionWin.getTexture().unload();
+        regionWin = null;
+    }
 
     @Override
     public void onAccelerationAccuracyChanged(AccelerationData pAccelerationData) {
@@ -571,4 +571,4 @@ public class EscenaNivel1 extends EscenaBase implements IAccelerationListener {
     }
 
 
-    }
+}
