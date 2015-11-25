@@ -356,8 +356,8 @@ public class EscenaNivel3 extends EscenaBase implements IAccelerationListener {
                         public boolean onAreaTouched(TouchEvent pSceneTouchEvent, float pTouchAreaLocalX, float pTouchAreaLocalY) {
                             if (pSceneTouchEvent.isActionDown()) {
                                 liberarEscena();
-                                admEscenas.crearEscenaNivel3();
-                                admEscenas.setEscena(TipoEscena.ESCENA_NIVEL3);
+                                admEscenas.crearEscenaMenu();
+                                admEscenas.setEscena(TipoEscena.ESCENA_MENU);
                                 return true;
                             }
                             return super.onAreaTouched(pSceneTouchEvent, pTouchAreaLocalX, pTouchAreaLocalY);
