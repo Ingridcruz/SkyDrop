@@ -2,8 +2,10 @@ package mx.itesm.skydrop;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 import android.widget.EditText;
 
+import org.andengine.entity.sprite.ButtonSprite;
 import org.andengine.entity.sprite.Sprite;
 import org.andengine.entity.text.Text;
 import org.andengine.input.touch.TouchEvent;
@@ -13,6 +15,7 @@ import org.andengine.opengl.font.IFont;
 import org.andengine.opengl.texture.ITexture;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 import org.andengine.opengl.texture.region.ITextureRegion;
+import org.andengine.opengl.texture.region.ITiledTextureRegion;
 
 /**
  * Created by rmroman on 11/09/15.
@@ -21,20 +24,21 @@ public class EscenaOpciones extends EscenaBase {
     // Regiones para imágenes
     private ITextureRegion regionFondo;
     private ITextureRegion regionScore;
-    private ITextureRegion regionSonido;
+
 
     // Sprite para el fondo
     private Sprite spriteFondo;
     private Sprite spriteScore;
     private IFont fuente;
-    private Sprite sonido;
+    private ButtonSprite sonido;
+    private ITiledTextureRegion regionSonido;
 
     @Override
     public void cargarRecursos() {
         regionFondo = cargarImagen("fondos/options.jpg");
         fuente = cargarFont("san.ttf");
         regionScore = cargarImagen("botones/resetscor.png");
-        regionSonido = cargarImagen("botones/sonido.png");
+        regionSonido = cargarImagenMosaico("sound.png", 360, 180, 1, 2);
     }
 
     private IFont cargarFont(String archivo) {
@@ -55,8 +59,31 @@ public class EscenaOpciones extends EscenaBase {
         attachChild(spriteFondo);
         agregarTextoPuntos();
 
-        sonido = cargarSprite(400, 170, regionSonido);
+        agregarSonido();
+    }
+
+    private void agregarSonido() {
+        sonido = new ButtonSprite(400, 150,
+                regionSonido,actividadJuego.getVertexBufferObjectManager()) {
+            @Override
+            public boolean onAreaTouched(TouchEvent pSceneTouchEvent, float pTouchAreaLocalX, float pTouchAreaLocalY) {
+
+                if (pSceneTouchEvent.isActionDown()) {
+                    actividadJuego.reproducirMusica("music.mp3", false);
+                     // Cambia el índice entre 0 y 1 ed manera alternada
+                    sonido.setCurrentTileIndex((sonido.getCurrentTileIndex() + 1) % 2);
+                }
+                // 0-NORMAL, 1-PRESIONADO
+                Log.i("Estado del botón", "" + sonido.getCurrentTileIndex());
+                return false; // Regresa falso para que Android no cambie el botón
+            }
+        };
+        // El estado inicial del botón se lee desde las preferencias o se toma un valor por default
+        // en este demo, siempre inicia prendido
+        sonido.setCurrentTileIndex(1);
+        registerTouchArea(sonido);
         attachChild(sonido);
+
     }
 
 

@@ -100,7 +100,7 @@ public class EscenaNivel1 extends EscenaBase implements IAccelerationListener {
             regionBtnContinuar = cargarImagen("botones/play.png");
             regionBtnSalir = cargarImagen("botones/back.png");
             regionBtnReplay=cargarImagen("botones/replay.png");
-            sonidoFondo = cargarEfecto("audio/disparoA.wav");
+
 
         }
 
