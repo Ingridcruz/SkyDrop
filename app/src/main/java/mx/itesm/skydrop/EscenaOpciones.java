@@ -69,18 +69,21 @@ public class EscenaOpciones extends EscenaBase {
             public boolean onAreaTouched(TouchEvent pSceneTouchEvent, float pTouchAreaLocalX, float pTouchAreaLocalY) {
 
                 if (pSceneTouchEvent.isActionDown()) {
-                    actividadJuego.reproducirMusica("music.mp3", false);
+                   
                      // Cambia el índice entre 0 y 1 ed manera alternada
                     sonido.setCurrentTileIndex((sonido.getCurrentTileIndex() + 1) % 2);
                 }
                 // 0-NORMAL, 1-PRESIONADO
+                if (sonido.setCurrentTileIndex()==1){
+                     actividadJuego.reproducirMusica("music.mp3", false);
+                }
                 Log.i("Estado del botón", "" + sonido.getCurrentTileIndex());
                 return false; // Regresa falso para que Android no cambie el botón
             }
         };
         // El estado inicial del botón se lee desde las preferencias o se toma un valor por default
         // en este demo, siempre inicia prendido
-        sonido.setCurrentTileIndex(1);
+        sonido.setCurrentTileIndex(0);
         registerTouchArea(sonido);
         attachChild(sonido);
 
