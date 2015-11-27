@@ -462,7 +462,7 @@ public class EscenaNivel2 extends EscenaBase implements IAccelerationListener {
         tiempoBomba += pSecondsElapsed;
         if (tiempoBomba > LIMITE_TIEMPON) {
             // Se cumpliÃ³ el tiempo
-            tiempoBomba =-2;
+            tiempoBomba =-2.2f;
 
             Sprite spriteBomba = cargarSprite((float) (Math.random() * ControlJuego.ANCHO_CAMARA - regionBomba.getWidth()) + regionBomba.getWidth(), ControlJuego.ALTO_CAMARA + regionBomba.getHeight(), regionBomba);
             Bomba nuevoBomba = new Bomba(spriteBomba);
